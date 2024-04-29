@@ -716,5 +716,6 @@ export interface SlideTheme {
   fontColor: string
   fontName: string
   outline: PPTElementOutline
-  shadow: PPTElementShadow
+  shadow: PPTElementShadow,
+  layouts?: Slide[]
 }

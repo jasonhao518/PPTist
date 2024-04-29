@@ -120,6 +120,7 @@ export default () => {
     }
     slidesStore.setTheme({
       backgroundColor: theme.background,
+      layouts: theme.layouts,
       themeColor: theme.colors[0],
       fontColor: theme.fontColor,
       fontName: theme.fontname,

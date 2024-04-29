@@ -3,6 +3,7 @@ import { storeToRefs } from 'pinia'
 import { parse, type Shape, type Element, type ChartItem } from 'pptxtojson'
 import { nanoid } from 'nanoid'
 import { useSlidesStore } from '@/store'
+import { Parser, HtmlRenderer } from 'commonmark'
 import { decrypt } from '@/utils/crypto'
 import { type ShapePoolItem, SHAPE_LIST, SHAPE_PATH_FORMULAS } from '@/configs/shapes'
 import { VIEWPORT_SIZE } from '@/configs/canvas'
@@ -435,7 +436,34 @@ export default () => {
     reader.readAsArrayBuffer(file)
   }
 
+
+  // 导入pptist文件
+  const importMarkdownFile = (files: FileList, cover = false) => {
+    const file = files[0]
+
+    const reader = new FileReader()
+    reader.addEventListener('load', () => {
+      try {
+
+        const parser = new Parser()
+        // const writer = new HtmlRenderer()
+        const parsed = parser.parse((reader.result as string)) // parsed is a 'Node' tree
+        // transform parsed if you like...
+        // const result = writer.render(parsed) // result is a String
+        console.log(parsed)
+        const slides = theme.value.layouts as Slide[]
+        slidesStore.setSlides(slides)
+
+      }
+      catch {
+        message.error('无法正确读取 / 解析该文件')
+      }
+    })
+    reader.readAsText(file)
+  }
+
   return {
+    importMarkdownFile,
     importSpecificFile,
     importPPTXFile,
     exporting,

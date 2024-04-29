@@ -3,6 +3,12 @@
     <div class="left">
       <Popover trigger="click" placement="bottom-start" v-model:value="mainMenuVisible">
         <template #content>
+          <FileInput accept=".md"  @change="files => {
+            importMarkdownFile(files)
+            mainMenuVisible = false
+          }">
+            <PopoverMenuItem>导入 markdown 文件</PopoverMenuItem>
+          </FileInput>
           <FileInput accept=".pptist"  @change="files => {
             importSpecificFile(files)
             mainMenuVisible = false
@@ -95,7 +101,7 @@ const mainStore = useMainStore()
 const slidesStore = useSlidesStore()
 const { title } = storeToRefs(slidesStore)
 const { enterScreening, enterScreeningFromStart } = useScreening()
-const { importSpecificFile, importPPTXFile, exporting } = useImport()
+const { importMarkdownFile, importSpecificFile, importPPTXFile, exporting } = useImport()
 const { resetSlides } = useSlideHandler()
 
 const mainMenuVisible = ref(false)
