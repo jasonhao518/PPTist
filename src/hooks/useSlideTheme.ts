@@ -178,9 +178,15 @@ export default () => {
     addHistorySnapshot()
   }
 
+  const applyDataToAllSlides = () => {
+    const newSlides: Slide[] = JSON.parse(JSON.stringify(slides.value))
+    console.log(newSlides)
+    slidesStore.setSlides(newSlides)
+  }
   return {
     applyPresetThemeToSingleSlide,
     applyPresetThemeToAllSlides,
     applyThemeToAllSlides,
+    applyDataToAllSlides,
   }
 }

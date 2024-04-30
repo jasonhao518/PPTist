@@ -22,10 +22,16 @@ import type {
   PPTTextElement,
 } from '@/types/slides'
 import { SlideRenderer } from '@/utils/slideRender'
+import useSlideTheme from './useSlideTheme'
 
 export default () => {
   const slidesStore = useSlidesStore()
   const { theme } = storeToRefs(useSlidesStore())
+
+  const {
+    applyThemeToAllSlides,
+    applyDataToAllSlides,
+  } = useSlideTheme()
 
   const { addSlidesFromData, isEmptySlide } = useAddSlidesOrElements()
 
@@ -451,11 +457,11 @@ export default () => {
         const parsed = parser.parse((reader.result as string)) // parsed is a 'Node' tree
         // transform parsed if you like...
         const slides = writer.render(parsed) // result is a String
-
         slidesStore.setSlides(slides)
-
+        applyThemeToAllSlides()
       }
-      catch {
+      catch (e) {
+        console.log(e)
         message.error('无法正确读取 / 解析该文件')
       }
     })

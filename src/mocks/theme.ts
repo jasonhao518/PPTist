@@ -19,7 +19,7 @@ export const theme: SlideTheme = {
   },
   layouts: {
     cover: {
-      id: 'template',
+      id: 'cover',
       elements: [
         {
           type: 'shape',
@@ -288,7 +288,7 @@ export const theme: SlideTheme = {
       },
     },
     toc: {
-      id: 'template',
+      id: 'toc',
       elements: [
         {
           type: 'shape',
@@ -472,7 +472,7 @@ export const theme: SlideTheme = {
       },
     },
     end: {
-      id: 'template',
+      id: 'end',
       elements: [
         {
           type: 'shape',

@@ -1,8 +1,44 @@
 /* eslint-disable no-duplicate-imports */
 import type { Slide, SlideTheme } from '@/types/slides'
-import type { Node } from 'commonmark'
+import type { Node, NodeWalker, NodeWalkingStep } from 'commonmark'
 import { HtmlRenderer } from 'commonmark'
-import { uniqueId } from 'lodash'
+import { v4 as uuidv4 } from 'uuid'
+
+interface JsonNode {
+  type: string;
+  literal?: string | null;
+  destination?: string | null;
+  title?: string | null;
+  children?: JsonNode[];
+}
+
+function nodesToJson(node: Node ): JsonNode {
+
+  const result: JsonNode = {
+    type: node.type,
+    literal: node.literal || null,
+    destination: node.destination || null,
+    title: node.title || null,
+    children: [],
+  }
+
+  let child = node.firstChild
+  while (child) {
+    const childJson: JsonNode | null = nodesToJson(child);
+    if (childJson) {
+      result.children?.push(childJson)
+    }
+    child = child.next
+  }
+
+  // If the node has no children, we don't need to keep an empty array
+  if (result.children?.length === 0) {
+    delete result.children
+  }
+
+  return result
+}
+
  
 /**
  * 将普通文本转为带段落信息的HTML字符串
@@ -33,7 +69,7 @@ export class SlideRenderer {
             }
             // Start a new slide
             currentSlide = {
-              id: uniqueId(),
+              id: uuidv4(),
               title,
               level,
               parent: null,
@@ -53,10 +89,10 @@ export class SlideRenderer {
               slideLevel1 = currentSlide
             }
             const slide = {
-              id: uniqueId(),
+              id: uuidv4(),
               title,
               level,
-              parent: slideLevel1,
+              level1Title: slideLevel1.title,
               content: [],
               children: [] as any
             }
@@ -76,10 +112,11 @@ export class SlideRenderer {
               slideLevel2 = currentSlide
             }
             const slide = {
-              id: uniqueId(),
+              id: uuidv4(),
               title,
               level,
-              parent: slideLevel2,
+              level1Title: slideLevel1.title,
+              level2Title: slideLevel2.title,
               content: [],
               children: [],
             }
@@ -90,61 +127,31 @@ export class SlideRenderer {
         }
 
         if (currentSlide) {
-          currentSlide.content.push(node)
+          if (node.parent?.type === 'document') {
+            currentSlide.content.push(nodesToJson(node))
+          }
         }
       }
     }
-    const list = slides.map( (slide: { id: any }) => {
+    const list = slides.map( (slide: { id: number, level: number }) => {
+      const layout = this.theme?.layouts[`level${slide.level}`]
+      if (layout) {
+        const copiedObject = Object.assign({}, layout)
+        copiedObject.id = `slide-${slide.id}`
+        copiedObject.data = slide
+        return copiedObject
+      }
       return {
         id: slide.id,
-        elements: [
-          {
-            type: 'shape',
-            id: 'vSheCJ',
-            left: 183.5185185185185,
-            top: 175.5092592592593,
-            width: 605.1851851851851,
-            height: 185.18518518518516,
-            viewBox: [200, 200],
-            path: 'M 0 0 L 200 0 L 200 200 L 0 200 Z',
-            fill: '#5b9bd5',
-            fixedRatio: false,
-            rotate: 0
-          }, 
-          {
-            type: 'shape',
-            id: 'Mpwv7x',
-            left: 211.29629629629628,
-            top: 201.80555555555557,
-            width: 605.1851851851851,
-            height: 185.18518518518516,
-            viewBox: [200, 200],
-            path: 'M 0 0 L 200 0 L 200 200 L 0 200 Z',
-            fill: '#5b9bd5',
-            fixedRatio: false,
-            rotate: 0,
-            opacity: 0.7
-          }, 
-          {
-            type: 'text',
-            id: 'WQOTAp',
-            left: 304.9074074074074,
-            top: 198.10185185185182,
-            width: 417.9629629629629,
-            height: 140,
-            content: '<p style=\'text-align: center;\'><strong><span style=\'color: #ffffff;\'><span style=\'font-size: 80px\'>感谢观看</span></span></strong></p>',
-            rotate: 0,
-            defaultFontName: 'Microsoft Yahei',
-            defaultColor: '#333',
-            wordSpace: 5
-          }
-        ],
-        background: {
-          type: 'solid',
-          color: '#fff',
-        },
+        data: slide,
+        elements: []
       }
+  
     })
+    const toc = this.theme?.layouts['toc']
+    if (toc) {
+      list.unshift(toc)
+    }
     const cover = this.theme?.layouts['cover']
     if (cover) {
       list.unshift(cover)
