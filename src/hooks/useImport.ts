@@ -3,7 +3,7 @@ import { storeToRefs } from 'pinia'
 import { parse, type Shape, type Element, type ChartItem } from 'pptxtojson'
 import { nanoid } from 'nanoid'
 import { useSlidesStore } from '@/store'
-import { Parser, HtmlRenderer } from 'commonmark'
+import { Parser } from 'commonmark'
 import { decrypt } from '@/utils/crypto'
 import { type ShapePoolItem, SHAPE_LIST, SHAPE_PATH_FORMULAS } from '@/configs/shapes'
 import { VIEWPORT_SIZE } from '@/configs/canvas'
@@ -21,6 +21,7 @@ import type {
   ShapeTextAlign,
   PPTTextElement,
 } from '@/types/slides'
+import { SlideRenderer } from '@/utils/slideRender'
 
 export default () => {
   const slidesStore = useSlidesStore()
@@ -438,7 +439,7 @@ export default () => {
 
 
   // 导入pptist文件
-  const importMarkdownFile = (files: FileList, cover = false) => {
+  const importMarkdownFile = (files: FileList) => {
     const file = files[0]
 
     const reader = new FileReader()
@@ -446,12 +447,11 @@ export default () => {
       try {
 
         const parser = new Parser()
-        // const writer = new HtmlRenderer()
+        const writer = new SlideRenderer(theme.value)
         const parsed = parser.parse((reader.result as string)) // parsed is a 'Node' tree
         // transform parsed if you like...
-        // const result = writer.render(parsed) // result is a String
-        console.log(parsed)
-        const slides = theme.value.layouts as Slide[]
+        const slides = writer.render(parsed) // result is a String
+
         slidesStore.setSlides(slides)
 
       }

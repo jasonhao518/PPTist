@@ -691,6 +691,7 @@ export interface Note {
  */
 export interface Slide {
   id: string
+  data?: any
   elements: PPTElement[]
   notes?: Note[]
   remark?: string
@@ -717,5 +718,7 @@ export interface SlideTheme {
   fontName: string
   outline: PPTElementOutline
   shadow: PPTElementShadow,
-  layouts?: Slide[]
+  layouts: {
+    [key: string]: Slide;
+  }
 }

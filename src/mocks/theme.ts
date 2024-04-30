@@ -17,8 +17,8 @@ export const theme: SlideTheme = {
     color: '#525252',
     style: 'solid',
   },
-  layouts: [
-    {
+  layouts: {
+    cover: {
       id: 'template',
       elements: [
         {
@@ -94,7 +94,7 @@ export const theme: SlideTheme = {
         imageSize: 'cover',
       },
     },
-    {
+    level1: {
       id: 'template',
       elements: [
         {
@@ -153,7 +153,7 @@ export const theme: SlideTheme = {
         color: '{{backgroundColor}}',
       },
     },
-    {
+    level2: {
       id: 'template',
       elements: [
         {
@@ -202,7 +202,7 @@ export const theme: SlideTheme = {
         color: '{{backgroundColor}}',
       },
     },
-    {
+    level3: {
       id: 'MZVO1kkj',
       elements: [
         {
@@ -287,7 +287,7 @@ export const theme: SlideTheme = {
         color: '{{backgroundColor}}',
       },
     },
-    {
+    toc: {
       id: 'template',
       elements: [
         {
@@ -471,7 +471,7 @@ export const theme: SlideTheme = {
         color: '{{backgroundColor}}',
       },
     },
-    {
+    end: {
       id: 'template',
       elements: [
         {
@@ -524,7 +524,7 @@ export const theme: SlideTheme = {
         color: '{{backgroundColor}}',
       },
     },
-    {
+    content: {
       id: 'template',
       elements: [
         {
@@ -587,7 +587,7 @@ export const theme: SlideTheme = {
         color: '{{backgroundColor}}',
       },
     },
-    {
+    sample: {
       id: 'template',
       elements: [
         {
@@ -704,7 +704,7 @@ export const theme: SlideTheme = {
         color: '{{backgroundColor}}',
       },
     },
-    {
+    hello: {
       id: 'template',
       elements: [
         {
@@ -780,7 +780,7 @@ export const theme: SlideTheme = {
         color: '{{backgroundColor}}',
       },
     },
-    {
+    world: {
       id: 'template',
       elements: [
         {
@@ -981,5 +981,5 @@ export const theme: SlideTheme = {
         color: '{{backgroundColor}}',
       },
     },
-  ]
+  }
 }
