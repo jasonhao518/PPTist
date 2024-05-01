@@ -132,9 +132,26 @@ export default () => {
   // 将当前主题配置应用到全部页面
   const applyThemeToAllSlides = (applyAll = false) => {
     const newSlides: Slide[] = JSON.parse(JSON.stringify(slides.value))
-    const { themeColor, backgroundColor, fontColor, fontName, outline, shadow } = theme.value
+    const { themeColor, backgroundColor, fontColor, fontName, outline, shadow, layouts } = theme.value
   
     for (const slide of newSlides) {
+      if (slide.data) {
+        const layout = layouts[`level${slide.data.level}`]
+        if (layout) {
+          layout.elements.forEach(element => {
+            const copiedObject = Object.assign({}, element)
+            if (copiedObject.type === 'text') {
+              if (copiedObject.subType === 'title') {
+                copiedObject.content = copiedObject.content.replace(/{{title}}/g, slide.data.title)
+              }
+            }
+            slide.elements.push(copiedObject)
+          })
+
+        }
+        // apply data
+
+      }
       if (!slide.background || slide.background.type !== 'image') {
         slide.background = {
           type: 'solid',
@@ -177,16 +194,9 @@ export default () => {
     slidesStore.setSlides(newSlides)
     addHistorySnapshot()
   }
-
-  const applyDataToAllSlides = () => {
-    const newSlides: Slide[] = JSON.parse(JSON.stringify(slides.value))
-    console.log(newSlides)
-    slidesStore.setSlides(newSlides)
-  }
   return {
     applyPresetThemeToSingleSlide,
     applyPresetThemeToAllSlides,
     applyThemeToAllSlides,
-    applyDataToAllSlides,
   }
 }

@@ -93,7 +93,6 @@ export const useSlidesStore = defineStore('slides', {
       } = state.theme
   
       const subColor = tinycolor(fontColor).isDark() ? 'rgba(230, 230, 230, 0.5)' : 'rgba(180, 180, 180, 0.5)'
-      console.log(state.theme.layouts)
       const layoutsString = JSON.stringify(state.theme.layouts)
         .replace(/{{themeColor}}/g, themeColor)
         .replace(/{{fontColor}}/g, fontColor)

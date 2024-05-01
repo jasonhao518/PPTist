@@ -134,19 +134,11 @@ export class SlideRenderer {
       }
     }
     const list = slides.map( (slide: { id: number, level: number }) => {
-      const layout = this.theme?.layouts[`level${slide.level}`]
-      if (layout) {
-        const copiedObject = Object.assign({}, layout)
-        copiedObject.id = `slide-${slide.id}`
-        copiedObject.data = slide
-        return copiedObject
-      }
       return {
         id: slide.id,
         data: slide,
         elements: []
       }
-  
     })
     const toc = this.theme?.layouts['toc']
     if (toc) {

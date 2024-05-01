@@ -30,7 +30,6 @@ export default () => {
 
   const {
     applyThemeToAllSlides,
-    applyDataToAllSlides,
   } = useSlideTheme()
 
   const { addSlidesFromData, isEmptySlide } = useAddSlidesOrElements()

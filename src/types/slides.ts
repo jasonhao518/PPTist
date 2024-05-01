@@ -146,6 +146,7 @@ interface PPTBaseElement {
  */
 export interface PPTTextElement extends PPTBaseElement {
   type: 'text'
+  subType?: 'title' | 'subtitle'
   content: string
   defaultFontName: string
   defaultColor: string
