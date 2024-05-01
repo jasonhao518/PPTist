@@ -114,10 +114,10 @@ export default () => {
   
   // 应用预置主题（全部）
   const applyPresetThemeToAllSlides = (theme: PresetTheme) => {
-    const newSlides: Slide[] = JSON.parse(JSON.stringify(slides.value))
-    for (const slide of newSlides) {
-      setSlideTheme(slide, theme)
-    }
+    // const newSlides: Slide[] = JSON.parse(JSON.stringify(slides.value))
+    // for (const slide of newSlides) {
+    //   setSlideTheme(slide, theme)
+    // }
     slidesStore.setTheme({
       backgroundColor: theme.background,
       layouts: theme.layouts,
@@ -125,33 +125,17 @@ export default () => {
       fontColor: theme.fontColor,
       fontName: theme.fontname,
     })
-    slidesStore.setSlides(newSlides)
-    addHistorySnapshot()
+    applyDataToAllSlides()
+    // slidesStore.setSlides(newSlides)
+    // addHistorySnapshot()
   }
   
   // 将当前主题配置应用到全部页面
   const applyThemeToAllSlides = (applyAll = false) => {
     const newSlides: Slide[] = JSON.parse(JSON.stringify(slides.value))
-    const { themeColor, backgroundColor, fontColor, fontName, outline, shadow, layouts } = theme.value
+    const { themeColor, backgroundColor, fontColor, fontName, outline, shadow } = theme.value
   
     for (const slide of newSlides) {
-      if (slide.data) {
-        const layout = layouts[`level${slide.data.level}`]
-        if (layout) {
-          layout.elements.forEach(element => {
-            const copiedObject = Object.assign({}, element)
-            if (copiedObject.type === 'text') {
-              if (copiedObject.subType === 'title') {
-                copiedObject.content = copiedObject.content.replace(/{{title}}/g, slide.data.title)
-              }
-            }
-            slide.elements.push(copiedObject)
-          })
-
-        }
-        // apply data
-
-      }
       if (!slide.background || slide.background.type !== 'image') {
         slide.background = {
           type: 'solid',
@@ -194,9 +178,77 @@ export default () => {
     slidesStore.setSlides(newSlides)
     addHistorySnapshot()
   }
+
+  const applyDataToAllSlides = () => {
+    const newSlides: Slide[] = JSON.parse(JSON.stringify(slides.value))
+    console.log(newSlides)
+    const {themeColor, backgroundColor, fontColor, fontName, outline, shadow, layouts } = theme.value
+    for (const slide of newSlides) {
+      if (slide.data) {
+        const layout = layouts[`${slide.data.type}`]
+        if (layout) {
+          slide.elements = []
+          layout.elements.forEach(element => {
+            const copiedObject = Object.assign({}, element)
+            // apply changes
+            if (copiedObject.type === 'text') {
+              if (copiedObject.subType === 'title') {
+                copiedObject.content = copiedObject.content.replace(/{{title}}/g, slide.data.title)
+              }
+            }
+            slide.elements.push(copiedObject)
+          })
+        }
+        // apply data
+
+      }
+
+      if (!slide.background || slide.background.type !== 'image') {
+        slide.background = {
+          type: 'solid',
+          color: backgroundColor
+        }
+      }
+  
+      for (const el of slide.elements) {  
+        if ('outline' in el && el.outline) el.outline = outline
+        if ('shadow' in el && el.shadow) el.shadow = shadow
+  
+        if (el.type === 'shape') el.fill = themeColor
+        else if (el.type === 'line') el.color = themeColor
+        else if (el.type === 'text') {
+          el.defaultColor = fontColor
+          el.defaultFontName = fontName
+          if (el.fill) el.fill = themeColor
+        }
+        else if (el.type === 'table') {
+          if (el.theme) el.theme.color = themeColor
+          for (const rowCells of el.data) {
+            for (const cell of rowCells) {
+              if (cell.style) {
+                cell.style.color = fontColor
+                cell.style.fontname = fontName
+              }
+            }
+          }
+        }
+        else if (el.type === 'chart') {
+          el.themeColor = [themeColor]
+          el.gridColor = fontColor
+        }
+        else if (el.type === 'latex') el.color = fontColor
+        else if (el.type === 'audio') el.color = themeColor
+      }
+
+    }
+    slidesStore.setSlides(newSlides)
+    addHistorySnapshot()
+  }
+
   return {
     applyPresetThemeToSingleSlide,
     applyPresetThemeToAllSlides,
     applyThemeToAllSlides,
+    applyDataToAllSlides,
   }
 }

@@ -472,7 +472,7 @@ export const theme: SlideTheme = {
         color: '{{backgroundColor}}',
       },
     },
-    end: {
+    ending: {
       id: 'end',
       elements: [
         {

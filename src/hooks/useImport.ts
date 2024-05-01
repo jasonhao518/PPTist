@@ -29,7 +29,7 @@ export default () => {
   const { theme } = storeToRefs(useSlidesStore())
 
   const {
-    applyThemeToAllSlides,
+    applyDataToAllSlides,
   } = useSlideTheme()
 
   const { addSlidesFromData, isEmptySlide } = useAddSlidesOrElements()
@@ -452,12 +452,12 @@ export default () => {
       try {
 
         const parser = new Parser()
-        const writer = new SlideRenderer(theme.value)
+        const writer = new SlideRenderer()
         const parsed = parser.parse((reader.result as string)) // parsed is a 'Node' tree
         // transform parsed if you like...
         const slides = writer.render(parsed) // result is a String
         slidesStore.setSlides(slides)
-        applyThemeToAllSlides()
+        applyDataToAllSlides()
       }
       catch (e) {
         console.log(e)
