@@ -182,7 +182,6 @@ export default () => {
 
   const applyDataToAllSlides = () => {
     const newSlides: Slide[] = JSON.parse(JSON.stringify(slides.value))
-    console.log(newSlides)
     const {themeColor, backgroundColor, fontColor, fontName, outline, shadow, layouts } = theme.value
     for (const slide of newSlides) {
       if (slide.data) {

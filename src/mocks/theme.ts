@@ -409,13 +409,14 @@ export const theme: SlideTheme = {
           }
         }, 
         {
-          type: 'text',
+          type: 'placeholder',
+          accept: ['Heading'],
           id: 'adudHB',
           left: 402.962962962963,
           top: 39.39814814814815,
           width: 194.07407407407408,
           height: 50,
-          content: '<p style=\'text-align: center;\'>在此输入内容</p>',
+          content: '<p style=\'text-align: center;\'>{{title}}</p>',
           rotate: 0,
           defaultFontName: '{{fontName}}',
           defaultColor: '{{fontColor}}',
