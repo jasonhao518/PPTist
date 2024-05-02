@@ -162,7 +162,9 @@ export class SlideRenderer {
       id: uuidv4(),
       data: {
         type: 'toc',
-        content: slides.filter(slide => slide.data.level === 1).map(slide => { 
+        content: [],
+        children: [],
+        toc: slides.filter(slide => slide.data.level === 1).map(slide => { 
           return {level: slide.data.level, index: slide.data.index, title: slide.data.title }
         }),
       },
@@ -172,6 +174,11 @@ export class SlideRenderer {
       id: uuidv4(),
       data: {
         type: 'cover',
+        data: {
+          'title': 'title here',
+          'subTitle': 'subtitle here',
+          'author': 'Your name'
+        },
         content: [],
       },
       elements: []

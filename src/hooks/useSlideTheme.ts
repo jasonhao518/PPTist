@@ -1,10 +1,11 @@
 import tinycolor from 'tinycolor2'
 import { storeToRefs } from 'pinia'
 import { useSlidesStore } from '@/store'
-import type { Slide } from '@/types/slides'
+import type { PPTPlaceHolder, Slide } from '@/types/slides'
 import type { PresetTheme } from '@/configs/theme'
 import useHistorySnapshot from '@/hooks/useHistorySnapshot'
 import Mustache from 'mustache'
+import { v4 as uuidv4 } from 'uuid'
 
 export default () => {
   const slidesStore = useSlidesStore()
@@ -133,118 +134,158 @@ export default () => {
   
   // 将当前主题配置应用到全部页面
   const applyThemeToAllSlides = (applyAll = false) => {
-    const newSlides: Slide[] = JSON.parse(JSON.stringify(slides.value))
-    const { themeColor, backgroundColor, fontColor, fontName, outline, shadow } = theme.value
-  
-    for (const slide of newSlides) {
-      if (!slide.background || slide.background.type !== 'image') {
-        slide.background = {
-          type: 'solid',
-          color: backgroundColor
-        }
-      }
-  
-      for (const el of slide.elements) {
-        if (applyAll) {
-          if ('outline' in el && el.outline) el.outline = outline
-          if ('shadow' in el && el.shadow) el.shadow = shadow
-        }
+    applyDataToAllSlides()
+  }
 
-        if (el.type === 'shape') el.fill = themeColor
-        else if (el.type === 'line') el.color = themeColor
-        else if (el.type === 'text') {
-          el.defaultColor = fontColor
-          el.defaultFontName = fontName
-          if (el.fill) el.fill = themeColor
-        }
-        else if (el.type === 'table') {
-          if (el.theme) el.theme.color = themeColor
-          for (const rowCells of el.data) {
-            for (const cell of rowCells) {
-              if (cell.style) {
-                cell.style.color = fontColor
-                cell.style.fontname = fontName
+  const splitSlides = (layouts: Slide[], slide: Slide) => {
+    console.log(slide)
+    // matching layout 
+    if (slide.data.content.length > 0) {
+      let contents = slide.data.content
+      const result = []
+      while (contents.length > 0 ) {
+        // find max match
+        let maxMatch = 0
+        let maxLayout = null
+        layouts.forEach(layout => {
+          let matched = 0
+          for (let i = 0; i < contents.length; i++) {
+            const content = contents[i]
+            let found = false
+            for (let j = 0; j < layout.elements.length; j++) {
+              if (layout.elements[j].type === 'placeholder') {
+                const element = layout.elements[j] as PPTPlaceHolder
+                if (element.accept.includes(content.type)) {
+                  found = true
+                  break
+                }
               }
             }
+            if ( found) {
+              matched++
+            }
+            else {
+              break
+            }
           }
+          if (matched > maxMatch) {
+            maxMatch = matched
+            maxLayout = layout
+          }
+        })
+        if (maxLayout) {
+          result.push(
+            {
+              slide: {
+                id: uuidv4(),
+                data: null,
+                elements: []
+              },
+              layout: maxLayout,
+              contents: contents.slice(0, maxMatch)
+            }
+          )
+          contents = contents.slice(maxMatch)
         }
-        else if (el.type === 'chart') {
-          el.themeColor = [themeColor]
-          el.gridColor = fontColor
+        else {
+          // skip unknow element
+          contents = contents.slice(1)
         }
-        else if (el.type === 'latex') el.color = fontColor
-        else if (el.type === 'audio') el.color = themeColor
       }
+      if (result.length > 0) {
+        result[0].slide.data = slide.data
+      }
+      return result
     }
-    slidesStore.setSlides(newSlides)
-    addHistorySnapshot()
+    
+    return [{
+      slide: slide,
+      layout: layouts[0],
+      contents: slide.data.content
+    }]
+    
   }
 
   const applyDataToAllSlides = () => {
-    const newSlides: Slide[] = JSON.parse(JSON.stringify(slides.value))
+    const tempSlides: Slide[] = JSON.parse(JSON.stringify(slides.value))
     const {themeColor, backgroundColor, fontColor, fontName, outline, shadow, layouts } = theme.value
-    for (const slide of newSlides) {
-      if (slide.data) {
-        const layout = layouts.filter(f => f.type === slide.data.type)        
+    const newSlides: Slide[] = []
+    for (const tempSlide of tempSlides) {
+      if (tempSlide.data) {
+        const layout = layouts.filter(f => f.type === tempSlide.data.type)
+        // split to multiple slides according content
         if (layout && layout.length > 0) {
-          slide.elements = []
-          layout[0].elements.forEach(element => {
-            const copiedObject = JSON.parse(JSON.stringify(element))
-            // apply changes
-            if (copiedObject.type === 'placeholder' ) {
-              if (copiedObject.accept.includes('Heading')) {
-                copiedObject.type = 'text'
-                copiedObject.content = Mustache.render(copiedObject.content, slide.data)
+          const subSlides = splitSlides(layout, tempSlide)
+          subSlides.forEach( subSlide => {
+            const slide = subSlide.slide
+            slide.elements = []
+            slide.background = subSlide.layout.background
+            const contents = subSlide.contents
+            subSlide.layout.elements.forEach(element => {
+              const copiedObject = JSON.parse(JSON.stringify(element))
+              // apply changes
+              if (copiedObject.type === 'placeholder' ) {
+                if (copiedObject.accept.includes('Heading')) {
+                  copiedObject.type = 'text'
+                  copiedObject.content = Mustache.render(copiedObject.content, slide.data)
+                }
+                else if (copiedObject.accept.includes('TableOfContent')) {
+                  copiedObject.type = 'text'
+                  copiedObject.content = Mustache.render(copiedObject.content, slide.data)
+                }
+                for (let i = 0; i < contents.length; i++) {
+                  if (copiedObject.accept.includes(contents[i].type)) {
+                    copiedObject.type = 'text'
+                    copiedObject.content = Mustache.render(copiedObject.content, contents[i])
+                    contents.splice(i, i)
+                  }
+                }
               }
-              else if (copiedObject.accept.includes('TableOfContent')) {
-                copiedObject.type = 'text'
-                copiedObject.content = Mustache.render(copiedObject.content, slide.data)
+              slide.elements.push(copiedObject)
+            })
+
+
+            if (!slide.background || slide.background.type !== 'image') {
+              slide.background = {
+                type: 'solid',
+                color: backgroundColor
               }
             }
-            slide.elements.push(copiedObject)
+        
+            for (const el of slide.elements) {  
+              if ('outline' in el && el.outline) el.outline = outline
+              if ('shadow' in el && el.shadow) el.shadow = shadow
+        
+              if (el.type === 'shape') el.fill = themeColor
+              else if (el.type === 'line') el.color = themeColor
+              else if (el.type === 'text') {
+                el.defaultColor = fontColor
+                el.defaultFontName = fontName
+                if (el.fill) el.fill = themeColor
+              }
+              else if (el.type === 'table') {
+                if (el.theme) el.theme.color = themeColor
+                for (const rowCells of el.data) {
+                  for (const cell of rowCells) {
+                    if (cell.style) {
+                      cell.style.color = fontColor
+                      cell.style.fontname = fontName
+                    }
+                  }
+                }
+              }
+              else if (el.type === 'chart') {
+                el.themeColor = [themeColor]
+                el.gridColor = fontColor
+              }
+              else if (el.type === 'latex') el.color = fontColor
+              else if (el.type === 'audio') el.color = themeColor
+            }
+            newSlides.push(slide)
           })
-        }
-        // apply data
 
-      }
-
-      if (!slide.background || slide.background.type !== 'image') {
-        slide.background = {
-          type: 'solid',
-          color: backgroundColor
         }
       }
-  
-      for (const el of slide.elements) {  
-        if ('outline' in el && el.outline) el.outline = outline
-        if ('shadow' in el && el.shadow) el.shadow = shadow
-  
-        if (el.type === 'shape') el.fill = themeColor
-        else if (el.type === 'line') el.color = themeColor
-        else if (el.type === 'text') {
-          el.defaultColor = fontColor
-          el.defaultFontName = fontName
-          if (el.fill) el.fill = themeColor
-        }
-        else if (el.type === 'table') {
-          if (el.theme) el.theme.color = themeColor
-          for (const rowCells of el.data) {
-            for (const cell of rowCells) {
-              if (cell.style) {
-                cell.style.color = fontColor
-                cell.style.fontname = fontName
-              }
-            }
-          }
-        }
-        else if (el.type === 'chart') {
-          el.themeColor = [themeColor]
-          el.gridColor = fontColor
-        }
-        else if (el.type === 'latex') el.color = fontColor
-        else if (el.type === 'audio') el.color = themeColor
-      }
-
     }
     slidesStore.setSlides(newSlides)
     addHistorySnapshot()
