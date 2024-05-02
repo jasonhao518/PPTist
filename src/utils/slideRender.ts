@@ -152,7 +152,7 @@ export class SlideRenderer {
         }
 
         if (currentSlide) {
-          if (node.parent?.type === 'document') {
+          if (node.parent?.type === 'document' && node.type !== 'heading') {
             currentSlide.data.content.push(nodesToJson(node))
           }
         }
@@ -162,7 +162,7 @@ export class SlideRenderer {
       id: uuidv4(),
       data: {
         type: 'toc',
-        content: slides.map(slide => { 
+        content: slides.filter(slide => slide.data.level === 1).map(slide => { 
           return {level: slide.data.level, index: slide.data.index, title: slide.data.title }
         }),
       },

@@ -146,8 +146,23 @@ interface PPTBaseElement {
  */
 export interface PPTTextElement extends PPTBaseElement {
   type: 'text'
-  subType?: 'title' | 'subtitle'
   content: string
+  defaultFontName: string
+  defaultColor: string
+  outline?: PPTElementOutline
+  fill?: string
+  lineHeight?: number
+  wordSpace?: number
+  opacity?: number
+  shadow?: PPTElementShadow
+  paragraphSpace?: number
+  vertical?: boolean
+}
+
+export interface PPTPlaceHolder extends PPTBaseElement {
+  type: 'placeholder'
+  accept: string[]
+  content?: string
   defaultFontName: string
   defaultColor: string
   outline?: PPTElementOutline
@@ -600,7 +615,7 @@ export interface PPTAudioElement extends PPTBaseElement {
 }
 
 
-export type PPTElement = PPTTextElement | PPTImageElement | PPTShapeElement | PPTLineElement | PPTChartElement | PPTTableElement | PPTLatexElement | PPTVideoElement | PPTAudioElement
+export type PPTElement = PPTPlaceHolder | PPTTextElement | PPTImageElement | PPTShapeElement | PPTLineElement | PPTChartElement | PPTTableElement | PPTLatexElement | PPTVideoElement | PPTAudioElement
 
 
 /**
@@ -692,6 +707,7 @@ export interface Note {
  */
 export interface Slide {
   id: string
+  type?: 'cover' | 'toc' | 'ending' | 'level1' | 'level2' | 'level3'
   data?: any
   elements: PPTElement[]
   notes?: Note[]
@@ -718,8 +734,6 @@ export interface SlideTheme {
   fontColor: string
   fontName: string
   outline: PPTElementOutline
-  shadow: PPTElementShadow,
-  layouts: {
-    [key: string]: Slide;
-  }
+  shadow: PPTElementShadow
+  layouts: Slide[]
 }

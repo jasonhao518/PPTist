@@ -4,6 +4,7 @@ import { useSlidesStore } from '@/store'
 import type { Slide } from '@/types/slides'
 import type { PresetTheme } from '@/configs/theme'
 import useHistorySnapshot from '@/hooks/useHistorySnapshot'
+import Mustache from 'mustache'
 
 export default () => {
   const slidesStore = useSlidesStore()
@@ -185,15 +186,20 @@ export default () => {
     const {themeColor, backgroundColor, fontColor, fontName, outline, shadow, layouts } = theme.value
     for (const slide of newSlides) {
       if (slide.data) {
-        const layout = layouts[`${slide.data.type}`]
-        if (layout) {
+        const layout = layouts.filter(f => f.type === slide.data.type)        
+        if (layout && layout.length > 0) {
           slide.elements = []
-          layout.elements.forEach(element => {
-            const copiedObject = Object.assign({}, element)
+          layout[0].elements.forEach(element => {
+            const copiedObject = JSON.parse(JSON.stringify(element))
             // apply changes
-            if (copiedObject.type === 'text') {
-              if (copiedObject.subType === 'title') {
-                copiedObject.content = copiedObject.content.replace(/{{title}}/g, slide.data.title)
+            if (copiedObject.type === 'placeholder' ) {
+              if (copiedObject.accept.includes('Heading')) {
+                copiedObject.type = 'text'
+                copiedObject.content = Mustache.render(copiedObject.content, slide.data)
+              }
+              else if (copiedObject.accept.includes('TableOfContent')) {
+                copiedObject.type = 'text'
+                copiedObject.content = Mustache.render(copiedObject.content, slide.data)
               }
             }
             slide.elements.push(copiedObject)
