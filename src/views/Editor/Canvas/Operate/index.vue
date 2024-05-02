@@ -80,6 +80,7 @@ const currentOperateComponent = computed<unknown>(() => {
   const elementTypeMap = {
     [ElementTypes.IMAGE]: ImageElementOperate,
     [ElementTypes.TEXT]: TextElementOperate,
+    [ElementTypes.PLACEHOLDER]: TextElementOperate,
     [ElementTypes.SHAPE]: ShapeElementOperate,
     [ElementTypes.LINE]: LineElementOperate,
     [ElementTypes.TABLE]: TableElementOperate,

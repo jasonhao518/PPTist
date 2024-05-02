@@ -38,6 +38,7 @@ const currentElementComponent = computed<unknown>(() => {
   const elementTypeMap = {
     [ElementTypes.IMAGE]: ImageElement,
     [ElementTypes.TEXT]: TextElement,
+    [ElementTypes.PLACEHOLDER]: TextElement,
     [ElementTypes.SHAPE]: ShapeElement,
     [ElementTypes.LINE]: LineElement,
     [ElementTypes.CHART]: ChartElement,

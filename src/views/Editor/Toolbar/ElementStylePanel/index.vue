@@ -23,6 +23,7 @@ import MultiStylePanel from './MultiStylePanel.vue'
 
 const panelMap = {
   [ElementTypes.TEXT]: TextStylePanel,
+  [ElementTypes.PLACEHOLDER]: TextStylePanel,
   [ElementTypes.IMAGE]: ImageStylePanel,
   [ElementTypes.SHAPE]: ShapeStylePanel,
   [ElementTypes.LINE]: LineStylePanel,

@@ -24,6 +24,7 @@ export const enum ShapePathFormulasKeys {
 
 export const enum ElementTypes {
   TEXT = 'text',
+  PLACEHOLDER = 'placeholder',
   IMAGE = 'image',
   SHAPE = 'shape',
   LINE = 'line',
