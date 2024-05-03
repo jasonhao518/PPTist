@@ -1,28 +1,3 @@
-<p align="center">
-    <img src='/public/icons/android-chrome-192x192.png' />
-</p>
-
-<p align="center">
-    <a href="https://www.github.com/pipipi-pikachu/PPTist/stargazers" target="_black">
-        <img src="https://img.shields.io/github/stars/pipipi-pikachu/PPTist?logo=github" alt="stars" />
-    </a>
-    <a href="https://www.github.com/pipipi-pikachu/PPTist/network/members" target="_black">
-        <img src="https://img.shields.io/github/forks/pipipi-pikachu/PPTist?logo=github" alt="forks" />
-    </a>
-    <a href="https://www.github.com/pipipi-pikachu/PPTist/blob/master/LICENSE" target="_black">
-        <img src="https://img.shields.io/github/license/pipipi-pikachu/PPTist?color=%232DCE89&logo=github" alt="license" />
-    </a>
-    <a href="https://www.typescriptlang.org" target="_black">
-        <img src="https://img.shields.io/badge/language-TypeScript-blue.svg" alt="language">
-    </a>
-    <a href="https://github.com/pipipi-pikachu/PPTist/issues" target="_black">
-        <img src="https://img.shields.io/github/issues-closed/pipipi-pikachu/PPTist.svg" alt="issue">
-    </a>
-</p>
-
-[简体中文](README_zh.md) | English
-
-
 # 🎨 PPTist
 > A web-based presentation (slideshow) application built with Vue3.x and TypeScript, that replicates most of the common features of Microsoft Office PowerPoint, allowing for the editing and presentation of PPTs online. It offers a rich set of shortcuts and right-click context menus, aiming to recreate a desktop-like application experience. Additionally, it supports exporting to local PPTX files. If you’re looking to develop a “Web Slideshow Application,” PPTist is a great place to start.
 
@@ -37,8 +12,10 @@ npm run dev
 ```
 
 
-# 📚 Features
+## 📚 Features
 ### Basic Features
+hi there, this is an example to include image. ![alt text](https://q1.itc.cn/q_70/images03/20240320/fcf023d835c54f78bac6c7efc98fbb4c.jpeg "Title")
+
 - History (undo, redo)
 - Shortcuts
 - Right-click menu

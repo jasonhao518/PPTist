@@ -162,6 +162,8 @@ export interface PPTTextElement extends PPTBaseElement {
 
 export interface PPTPlaceHolder extends PPTBaseElement {
   type: 'placeholder'
+  main?: boolean
+  used?: boolean
   accept: string[]
   content?: string
   defaultFontName: string
