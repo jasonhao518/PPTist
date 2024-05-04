@@ -295,120 +295,7 @@ export const theme: SlideTheme = {
       id: 'template',
       type: 'level2',
       elements: [
-        {
-          type: 'shape',
-          id: 'EBBnTr',
-          left: 360.5996472663139,
-          top: 141.8496472663139,
-          width: 278.80070546737215,
-          height: 278.80070546737215,
-          viewBox: [200, 200],
-          path: 'M 100 0 A 50 50 0 1 1 100 200 A 50 50 0 1 1 100 0 Z',
-          fill: '{{themeColor}}',
-          fixedRatio: true,
-          rotate: 0,
-          outline: {
-            width: 0,
-            color: '{{backgroundColor}}',
-            style: 'solid'
-          }
-        }, 
-        {
-          type: 'shape',
-          id: 'gDIWDH',
-          left: 456.4373897707231,
-          top: 98.287037037037,
-          width: 87.12522045855381,
-          height: 87.12522045855381,
-          viewBox: [200, 200],
-          path: 'M 100 0 A 50 50 0 1 1 100 200 A 50 50 0 1 1 100 0 Z',
-          fill: '{{themeColor}}',
-          fixedRatio: true,
-          rotate: 0,
-          outline: {
-            width: 4,
-            color: '{{backgroundColor}}',
-            style: 'solid'
-          },
-          text: {
-            content: '<p style=\'text-align: center;\'><span style=\'color: #ffffff;\'>1</span></p>',
-            defaultFontName: '{{fontName}}',
-            defaultColor: '{{fontColor}}',
-            align: 'middle'
-          }
-        }, 
-        {
-          type: 'shape',
-          id: 'DUWT7E',
-          left: 317.037037037037,
-          top: 237.68738977072314,
-          width: 87.12522045855381,
-          height: 87.12522045855381,
-          viewBox: [200, 200],
-          path: 'M 100 0 A 50 50 0 1 1 100 200 A 50 50 0 1 1 100 0 Z',
-          fill: '{{themeColor}}',
-          fixedRatio: true,
-          rotate: 0,
-          outline: {
-            width: 4,
-            color: '{{backgroundColor}}',
-            style: 'solid'
-          },
-          text: {
-            content: '<p style=\'text-align: center;\'><span style=\'color: #ffffff;\'>4</span></p>',
-            defaultFontName: '{{fontName}}',
-            defaultColor: '{{fontColor}}',
-            align: 'middle'
-          }
-        }, 
-        {
-          type: 'shape',
-          id: 'pbhn38',
-          left: 456.43738977072303,
-          top: 377.08774250440916,
-          width: 87.12522045855381,
-          height: 87.12522045855381,
-          viewBox: [200, 200],
-          path: 'M 100 0 A 50 50 0 1 1 100 200 A 50 50 0 1 1 100 0 Z',
-          fill: '{{themeColor}}',
-          fixedRatio: true,
-          rotate: 0,
-          outline: {
-            width: 4,
-            color: '{{backgroundColor}}',
-            style: 'solid'
-          },
-          text: {
-            content: '<p style=\'text-align: center;\'><span style=\'color: #ffffff;\'>3</span></p>',
-            defaultFontName: '{{fontName}}',
-            defaultColor: '{{fontColor}}',
-            align: 'middle'
-          }
-        }, 
-        {
-          type: 'shape',
-          id: 'CvMKrO',
-          left: 595.8377425044091,
-          top: 237.6873897707231,
-          width: 87.12522045855381,
-          height: 87.12522045855381,
-          viewBox: [200, 200],
-          path: 'M 100 0 A 50 50 0 1 1 100 200 A 50 50 0 1 1 100 0 Z',
-          fill: '{{themeColor}}',
-          fixedRatio: true,
-          rotate: 0,
-          outline: {
-            width: 4,
-            color: '{{backgroundColor}}',
-            style: 'solid'
-          },
-          text: {
-            content: '<p style=\'text-align: center;\'><span style=\'color: #ffffff;\'>2</span></p>',
-            defaultFontName: '{{fontName}}',
-            defaultColor: '{{fontColor}}',
-            align: 'middle'
-          }
-        }, 
+
         {
           type: 'placeholder',
           accept: ['Heading'],
@@ -446,36 +333,11 @@ export const theme: SlideTheme = {
           top: 256.25,
           width: 194.07407407407408,
           height: 50,
-          content: '<p style=\'text-align: center;\'>在此输入内容</p>',
           rotate: 0,
           defaultFontName: '{{fontName}}',
           defaultColor: '{{fontColor}}',
         }, 
-        {
-          type: 'text',
-          id: 'G5qoho',
-          left: 691.1111111111111,
-          top: 256.25,
-          width: 194.07407407407408,
-          height: 50,
-          content: '<p style=\'text-align: center;\'>在此输入内容</p>',
-          rotate: 0,
-          defaultFontName: '{{fontName}}',
-          defaultColor: '{{fontColor}}',
-        }, 
-        {
-          type: 'shape',
-          id: 'vdZcI6',
-          left: 415.18518518518516,
-          top: 196.4351851851852,
-          width: 169.62962962962962,
-          height: 169.62962962962962,
-          viewBox: [200, 200],
-          path: 'M 100 0 A 50 50 0 1 1 100 200 A 50 50 0 1 1 100 0 Z',
-          fill: '{{backgroundColor}}',
-          fixedRatio: false,
-          rotate: 0
-        }
+        
       ],
       background: {
         type: 'solid',
@@ -487,36 +349,18 @@ export const theme: SlideTheme = {
       type: 'level3',
       elements: [
         {
-          type: 'shape',
-          id: 'tYUmrx',
-          left: 156.66666666666683,
-          top: 149.02777777777771,
-          width: 264.4444444444445,
-          height: 264.4444444444445,
-          viewBox: [200, 200],
-          path: 'M 100 0 A 50 50 0 1 1 100 200 A 50 50 0 1 1 100 0 Z',
-          fill: '{{themeColor}}',
-          fixedRatio: false,
+          type: 'placeholder',
+          accept: ['Heading'],
+          id: 'ptNnUJ',
+          left: 145,
+          top: 148,
+          width: 711,
+          height: 77,
+          lineHeight: 1.2,
+          content: '<p style=\'text-align: center;\'><strong><span style=\'font-size: 48px\'>{{title}}</span></strong></p>',
           rotate: 0,
-          text: {
-            content: '<p style=\'text-align: center;\'><span style=\'color: #ffffff;\'><span style=\'font-size: 60px\'>01</span></span></p>',
-            defaultFontName: '{{fontName}}',
-            defaultColor: '{{fontColor}}',
-            align: 'middle'
-          }
-        },
-        {
-          type: 'shape',
-          id: '0GVHf8',
-          left: 342.2222222222223,
-          top: 217.17592592592587,
-          width: 128.14814814814812,
-          height: 128.14814814814812,
-          viewBox: [200, 200],
-          path: 'M 100 0 A 50 50 0 1 1 100 200 A 50 50 0 1 1 100 0 Z',
-          fill: '{{backgroundColor}}',
-          fixedRatio: false,
-          rotate: 0
+          defaultFontName: '{{fontName}}',
+          defaultColor: '{{fontColor}}',
         },
         {
           type: 'placeholder',
@@ -812,25 +656,7 @@ export const theme: SlideTheme = {
       id: 'template',
       type: 'toc',
       elements: [
-        {
-          type: 'shape',
-          id: 'SUWirT',
-          left: 73.8888888888889,
-          top: 64.21296296296302,
-          width: 49.629629629629626,
-          height: 49.629629629629626,
-          viewBox: [200, 200],
-          path: 'M 100 0 A 50 50 0 1 1 100 200 A 50 50 0 1 1 100 0 Z',
-          fill: '{{themeColor}}',
-          fixedRatio: false,
-          rotate: 0,
-          text: {
-            content: '<p style=\'text-align: center;\'><span style=\'color: #ffffff;\'>1</span></p>',
-            defaultFontName: '{{fontName}}',
-            defaultColor: '{{fontColor}}',
-            align: 'middle'
-          }
-        }, 
+
         {
           type: 'placeholder',
           accept: ['TableOfContent'],
@@ -845,166 +671,7 @@ export const theme: SlideTheme = {
           defaultColor: '{{fontColor}}',
           fill: '{{subColor}}'
         }, 
-        {
-          type: 'shape',
-          id: 'fS09I7',
-          left: 527.5925925925926,
-          top: 64.21296296296302,
-          width: 49.629629629629626,
-          height: 49.629629629629626,
-          viewBox: [200, 200],
-          path: 'M 100 0 A 50 50 0 1 1 100 200 A 50 50 0 1 1 100 0 Z',
-          fill: '{{themeColor}}',
-          fixedRatio: false,
-          rotate: 0,
-          text: {
-            content: '<p style=\'text-align: center;\'><span style=\'color: #ffffff;\'>2</span></p>',
-            defaultFontName: '{{fontName}}',
-            defaultColor: '{{fontColor}}',
-            align: 'middle'
-          }
-        }, 
-        {
-          type: 'text',
-          id: 'qCnfB1',
-          left: 602.4074074074074,
-          top: 64.21296296296302,
-          width: 323.7037037037037,
-          height: 120,
-          content: '<p style=\'\'>在此输入内容</p><p style=\'\'>在此输入内容</p><p style=\'\'>在此输入内容</p>',
-          rotate: 0,
-          defaultFontName: '{{fontName}}',
-          defaultColor: '{{fontColor}}',
-          fill: '{{subColor}}'
-        },
-        {
-          type: 'shape',
-          id: 'difAAT',
-          left: 73.8888888888889,
-          top: 221.25000000000003,
-          width: 49.629629629629626,
-          height: 49.629629629629626,
-          viewBox: [200, 200],
-          path: 'M 100 0 A 50 50 0 1 1 100 200 A 50 50 0 1 1 100 0 Z',
-          fill: '{{themeColor}}',
-          fixedRatio: false,
-          rotate: 0,
-          text: {
-            content: '<p style=\'text-align: center;\'><span style=\'color: #ffffff;\'>3</span></p>',
-            defaultFontName: '{{fontName}}',
-            defaultColor: '{{fontColor}}',
-            align: 'middle'
-          }
-        }, 
-        {
-          type: 'text',
-          id: 'EUlvMo',
-          left: 148.70370370370372,
-          top: 221.25000000000003,
-          width: 323.7037037037037,
-          height: 120,
-          content: '<p style=\'\'>在此输入内容</p><p style=\'\'>在此输入内容</p><p style=\'\'>在此输入内容</p>',
-          rotate: 0,
-          defaultFontName: '{{fontName}}',
-          defaultColor: '{{fontColor}}',
-          fill: '{{subColor}}'
-        }, 
-        {
-          type: 'shape',
-          id: 'US_9jB',
-          left: 527.5925925925926,
-          top: 221.25000000000003,
-          width: 49.629629629629626,
-          height: 49.629629629629626,
-          viewBox: [200, 200],
-          path: 'M 100 0 A 50 50 0 1 1 100 200 A 50 50 0 1 1 100 0 Z',
-          fill: '{{themeColor}}',
-          fixedRatio: false,
-          rotate: 0,
-          text: {
-            content: '<p style=\'text-align: center;\'><span style=\'color: #ffffff;\'>4</span></p>',
-            defaultFontName: '{{fontName}}',
-            defaultColor: '{{fontColor}}',
-            align: 'middle'
-          }
-        }, 
-        {
-          type: 'text',
-          id: '243MnQ',
-          left: 602.4074074074074,
-          top: 221.25000000000003,
-          width: 323.7037037037037,
-          height: 120,
-          content: '<p style=\'\'>在此输入内容</p><p style=\'\'>在此输入内容</p><p style=\'\'>在此输入内容</p>',
-          rotate: 0,
-          defaultFontName: '{{fontName}}',
-          defaultColor: '{{fontColor}}',
-          fill: '{{subColor}}'
-        }, 
-        {
-          type: 'shape',
-          id: 'Y_KUj0',
-          left: 73.8888888888889,
-          top: 378.287037037037,
-          width: 49.629629629629626,
-          height: 49.629629629629626,
-          viewBox: [200, 200],
-          path: 'M 100 0 A 50 50 0 1 1 100 200 A 50 50 0 1 1 100 0 Z',
-          fill: '{{themeColor}}',
-          fixedRatio: false,
-          rotate: 0,
-          text: {
-            content: '<p style=\'text-align: center;\'><span style=\'color: #ffffff;\'>5</span></p>',
-            defaultFontName: '{{fontName}}',
-            defaultColor: '{{fontColor}}',
-            align: 'middle'
-          }
-        }, 
-        {
-          type: 'text',
-          id: '9GglMe',
-          left: 148.70370370370372,
-          top: 378.287037037037,
-          width: 323.7037037037037,
-          height: 120,
-          content: '<p style=\'\'>在此输入内容</p><p style=\'\'>在此输入内容</p><p style=\'\'>在此输入内容</p>',
-          rotate: 0,
-          defaultFontName: '{{fontName}}',
-          defaultColor: '{{fontColor}}',
-          fill: '{{subColor}}'
-        }, 
-        {
-          type: 'shape',
-          id: 'eSInje',
-          left: 527.5925925925926,
-          top: 378.287037037037,
-          width: 49.629629629629626,
-          height: 49.629629629629626,
-          viewBox: [200, 200],
-          path: 'M 100 0 A 50 50 0 1 1 100 200 A 50 50 0 1 1 100 0 Z',
-          fill: '{{themeColor}}',
-          fixedRatio: false,
-          rotate: 0,
-          text: {
-            content: '<p style=\'text-align: center;\'><span style=\'color: #ffffff;\'>6</span></p>',
-            defaultFontName: '{{fontName}}',
-            defaultColor: '{{fontColor}}',
-            align: 'middle'
-          }
-        }, 
-        {
-          type: 'text',
-          id: '0S3yUg',
-          left: 602.4074074074074,
-          top: 378.287037037037,
-          width: 323.7037037037037,
-          height: 120,
-          content: '<p style=\'\'>在此输入内容</p><p style=\'\'>在此输入内容</p><p style=\'\'>在此输入内容</p>',
-          rotate: 0,
-          defaultFontName: '{{fontName}}',
-          defaultColor: '{{fontColor}}',
-          fill: '{{subColor}}'
-        }
+
       ],
       background: {
         type: 'solid',
