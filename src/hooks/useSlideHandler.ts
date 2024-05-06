@@ -31,10 +31,7 @@ export default () => {
     const emptySlide: Slide = {
       id: nanoid(10),
       elements: [],
-      background: {
-        type: 'solid',
-        color: theme.value.backgroundColor,
-      },
+      background: theme.value.background['default'],
     }
     slidesStore.updateSlideIndex(0)
     mainStore.setActiveElementIdList([])
@@ -80,10 +77,7 @@ export default () => {
     const emptySlide: Slide = {
       id: nanoid(10),
       elements: [],
-      background: {
-        type: 'solid',
-        color: theme.value.backgroundColor,
-      },
+      background: theme.value.background['default'],
     }
     mainStore.setActiveElementIdList([])
     slidesStore.addSlide(emptySlide)
@@ -104,6 +98,19 @@ export default () => {
     }
     mainStore.setActiveElementIdList([])
     slidesStore.addSlide(newSlide)
+    addHistorySnapshot()
+  }
+
+  // 根据模板创建新页面
+  const applySlideTemplate = (slide: Slide) => {
+    const { groupIdMap, elIdMap } = createElementIdMap(slide.elements)
+
+    for (const element of slide.elements) {
+      element.id = elIdMap[element.id]
+      if (element.groupId) element.groupId = groupIdMap[element.groupId]
+    }
+
+    slidesStore.updateSlide({ elements: slide.elements })
     addHistorySnapshot()
   }
 
@@ -157,6 +164,7 @@ export default () => {
     pasteSlide,
     createSlide,
     createSlideByTemplate,
+    applySlideTemplate,
     copyAndPasteSlide,
     deleteSlide,
     cutSlide,

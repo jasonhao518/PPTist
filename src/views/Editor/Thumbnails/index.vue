@@ -9,7 +9,10 @@
       <div class="btn" @click="createSlide()"><IconPlus class="icon" />添加幻灯片</div>
       <Popover trigger="click" placement="bottom-start" v-model:value="presetLayoutPopoverVisible" center>
         <template #content>
-          <LayoutPool @select="slide => { createSlideByTemplate(slide); presetLayoutPopoverVisible = false }" />
+          <LayoutPool 
+          @select="slide => { createSlideByTemplate(slide); presetLayoutPopoverVisible = false }"
+          @apply="slide => { applySlideTemplate(slide); presetLayoutPopoverVisible = false }"
+           />
         </template>
         <div class="select-btn"><IconDown /></div>
       </Popover>
@@ -80,6 +83,7 @@ const {
   pasteSlide,
   createSlide,
   createSlideByTemplate,
+  applySlideTemplate,
   copyAndPasteSlide,
   deleteSlide,
   cutSlide,
