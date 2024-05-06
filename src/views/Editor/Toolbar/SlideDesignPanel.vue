@@ -274,7 +274,7 @@
         v-for="(item, index) in PRESET_THEMES" 
         :key="index"
         :style="{
-          backgroundColor: item.background,
+          backgroundColor: '#ffffff',
           fontFamily: item.fontname,
         }"
       >

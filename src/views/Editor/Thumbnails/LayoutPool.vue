@@ -11,7 +11,7 @@
 
         <div class="btns">
           <Button class="btn" type="primary" size="small" @click="insertTemplate(slide)">插入模板</Button>
-          <Button class="btn" type="primary" size="small" @click="applyTemplate(slide)">应用模板</Button>
+          <Button v-if="slide.type === slideType" class="btn" type="primary" size="small" @click="applyTemplate(slide)">应用模板</Button>
           
         </div>
       </div>
@@ -34,7 +34,7 @@ const emit = defineEmits<{
 
 
 const slidesStore = useSlidesStore()
-const { layouts } = storeToRefs(slidesStore)
+const { layouts, slideType} = storeToRefs(slidesStore)
 
 const insertTemplate = (slide: Slide) => {
   emit('select', slide)

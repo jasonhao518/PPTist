@@ -26,7 +26,8 @@ export interface SlidesState {
   title: string
   theme: SlideTheme
   slides: Slide[]
-  slideIndex: number
+  slideIndex: number,
+  slideType?: string,
   viewportRatio: number
 }
 
@@ -36,6 +37,7 @@ export const useSlidesStore = defineStore('slides', {
     theme: theme, // 主题样式
     slides: slides, // 幻灯片页面数据
     slideIndex: 0, // 当前页面索引
+    slideType: 'cover',
     viewportRatio: 0.5625, // 可视区域比例，默认16:9
   }),
 
@@ -167,6 +169,7 @@ export const useSlidesStore = defineStore('slides', {
   
     updateSlideIndex(index: number) {
       this.slideIndex = index
+      this.slideType = this.slides[index].type
     },
   
     addElement(element: PPTElement | PPTElement[]) {
