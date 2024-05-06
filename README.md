@@ -32,6 +32,7 @@ hi there, this is an example to include image. ![alt text](https://q1.itc.cn/q_7
 - Rulers
 - Canvas zoom and move
 - Theme settings
+- Extract slides style
 - Speaker notes (rich text)
 - Slide templates
 - Transition animations
