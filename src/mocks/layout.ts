@@ -140,6 +140,7 @@ export const layouts: Slide[] = [
   },
   {
     id: 'template',
+    type: 'ending',
     elements: [
       {
         type: 'shape',

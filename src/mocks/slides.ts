@@ -3,6 +3,7 @@ import type { Slide } from '@/types/slides'
 export const slides: Slide[] = [
   {
     id: 'test-slide-1',
+    type: 'cover',
     elements: [
       {
         type: 'shape',
@@ -136,6 +137,7 @@ export const slides: Slide[] = [
   },
   {
     id: 'test-slide-3',
+    type: 'ending',
     elements: [
       {
         type: 'shape',
