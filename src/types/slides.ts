@@ -732,11 +732,11 @@ export interface Slide {
  * fontName: 字体
  */
 export interface SlideTheme {
-  backgroundColor: string
+//  backgroundColor: string
   themeColor: string
   fontColor: string
   fontName: string
   outline: PPTElementOutline
   shadow: PPTElementShadow
-  layouts: Slide[]
+  background: Record<string, SlideBackground>
 }

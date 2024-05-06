@@ -5,6 +5,7 @@ import type { Slide } from '@/types/slides'
 export const layouts: Slide[] = [
   {
     id: 'template',
+    type: 'cover',
     elements: [
       {
         type: 'shape',

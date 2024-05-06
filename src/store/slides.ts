@@ -4,6 +4,7 @@ import { omit } from 'lodash'
 import type { Slide, SlideTheme, PPTElement, PPTAnimation } from '@/types/slides'
 import { slides } from '@/mocks/slides'
 import { theme } from '@/mocks/theme'
+import { layouts } from '@/mocks/layout'
 
 interface RemoveElementPropData {
   id: string
@@ -89,18 +90,31 @@ export const useSlidesStore = defineStore('slides', {
         themeColor,
         fontColor,
         fontName,
-        backgroundColor,
+        background,
       } = state.theme
   
       const subColor = tinycolor(fontColor).isDark() ? 'rgba(230, 230, 230, 0.5)' : 'rgba(180, 180, 180, 0.5)'
-      const layoutsString = JSON.stringify(state.theme.layouts)
+  
+      const layoutsString = JSON.stringify(layouts)
         .replace(/{{themeColor}}/g, themeColor)
         .replace(/{{fontColor}}/g, fontColor)
         .replace(/{{fontName}}/g, fontName)
-        .replace(/{{backgroundColor}}/g, backgroundColor)
         .replace(/{{subColor}}/g, subColor)
       
-      return JSON.parse(layoutsString)
+      const result = JSON.parse(layoutsString) as Slide[]
+      // apply background
+      const defaultBackground = background['default']
+      result.forEach(layout => {
+        const slideBackground = background[layout.type!]
+        if (slideBackground) {
+          layout.background = slideBackground
+        }
+        else {
+          layout.background = defaultBackground
+        }
+      })
+
+      return result
     },
   },
 
