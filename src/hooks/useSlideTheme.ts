@@ -1,9 +1,13 @@
+/* eslint-disable max-depth */
 import tinycolor from 'tinycolor2'
 import { storeToRefs } from 'pinia'
 import { useSlidesStore } from '@/store'
 import type { Slide } from '@/types/slides'
 import type { PresetTheme } from '@/configs/theme'
 import useHistorySnapshot from '@/hooks/useHistorySnapshot'
+import Mustache from 'mustache'
+import { url2Base64 } from '@/utils/url2Base64'
+import { layouts } from '@/mocks/layout'
 
 interface ThemeValueWithArea {
   area: number
@@ -363,11 +367,153 @@ export default () => {
     slidesStore.setSlides(newSlides)
     addHistorySnapshot()
   }
+  
+  
+  const applyDataToAllSlides = () => {
+    const newSlides: Slide[] = JSON.parse(JSON.stringify(slides.value))
+    const {themeColor, backgroundColor, fontColor, fontName, outline, shadow } = theme.value
+    for (const slide of newSlides) {
+      if (slide.data) {
+        // console.log(tempSlide)
+        const layout = layouts.filter(f => f.type === slide.data.type)
+        // split to multiple slides according content
+        if (layout && layout.length > 0) {
+          slide.elements = []
+          slide.background = layout[0].background
+          const contents = slide.data.content
+          layout[0].elements.forEach(async element => {
+            const copiedObject = JSON.parse(JSON.stringify(element))
+            // apply changes
+            if ((!copiedObject.groupId || copiedObject.main ) && copiedObject.type === 'placeholder' ) {
+              if (copiedObject.accept.includes('Heading')) {
+                copiedObject.type = 'text'
+                copiedObject.content = Mustache.render(copiedObject.content, slide.data)
+                slide.elements.push(copiedObject)
+              }
+              else if (copiedObject.accept.includes('TableOfContent')) {
+                copiedObject.type = 'text'
+                copiedObject.content = Mustache.render(copiedObject.content, slide.data)
+                slide.elements.push(copiedObject)
+              }
+              for (let i = 0; i < contents.length; i++) {
+                if (copiedObject.accept.includes(contents[i].type)) {
+                  if (copiedObject.groupId) {
+                    // handle it as a group
+                    const els = JSON.parse(JSON.stringify(layout[0].elements.filter(el => el.groupId === copiedObject.groupId)))
+
+                    // fill data into elements
+                    if (contents[i].type === 'paragraph') {
+                      if (contents[i].children) {
+                        for (let k = 0 ; k < contents[i].children.length; k++) {
+                          const child = contents[i].children[k]
+                          for ( let j = 0; j < els.length; j++) {
+                            if (!els[j].used && els[j].accept.includes(child.type)) {
+                              if (child.type === 'text') {
+                                els[j].type = 'text'
+                                els[j].used = true
+                                els[j].content = Mustache.render('<p>{{#children}}{{literal}}{{/children}}</p>', contents[i])
+                                slide.elements.push(els[j])
+                              }
+                              else if (child.type === 'image') {
+                                els[j].type = 'image'
+                                els[j].used = true
+                                els[j].src = await url2Base64(child.destination)
+                                slide.elements.push(els[j])
+                                console.log(els[j])
+                              }
+
+                              break
+                            }
+                          }
+                        }
+                      }
+                    }
+                    else if (contents[i].type === 'list') {
+                      if (contents[i].children) {
+                        const els2 = els.filter((ele: { accept: string | string[] }) => ele.accept.includes('text'))
+                        if (els2 && els2.length > 0) {
+                          console.log(contents[i])
+                          els2[0].type = 'text'
+                          els2[0].content = Mustache.render('<ol>{{#children}}<li>{{#children}}{{#children}}{{literal}}{{/children}}{{/children}}</li>{{/children}}</ol>', contents[i])
+                          slide.elements.push(els2[0])
+                        }
+                      }
+                    }
+                  }
+                  else {
+                    if (contents[i].type === 'paragraph') {
+                      copiedObject.type = 'text'
+                      copiedObject.content = Mustache.render('<p>{{#children}}{{literal}}{{/children}}</p>', contents[i])
+                    }
+                    else if (contents[i].type === 'list') {
+                      console.log(contents[i])
+                      copiedObject.type = 'text'
+                      copiedObject.content = Mustache.render('<p>{{#children}}{{#children}}{{#children}}{{literal}}{{/children}}{{/children}}{{/children}}</p>', contents[i])
+                    }
+                    slide.elements.push(copiedObject)
+                  }
+
+                  contents.splice(i, i)
+                }
+              }
+            }
+            else {
+              slide.elements.push(copiedObject)
+            }
+            
+          })
+
+
+          if (!slide.background || slide.background.type !== 'image') {
+            slide.background = {
+              type: 'solid',
+              color: backgroundColor
+            }
+          }
+      
+          for (const el of slide.elements) {  
+            if ('outline' in el && el.outline) el.outline = outline
+            if ('shadow' in el && el.shadow) el.shadow = shadow
+      
+            if (el.type === 'shape') el.fill = themeColor
+            else if (el.type === 'line') el.color = themeColor
+            else if (el.type === 'text') {
+              el.defaultColor = fontColor
+              el.defaultFontName = fontName
+              if (el.fill) el.fill = themeColor
+            }
+            else if (el.type === 'table') {
+              if (el.theme) el.theme.color = themeColor
+              for (const rowCells of el.data) {
+                for (const cell of rowCells) {
+                  if (cell.style) {
+                    cell.style.color = fontColor
+                    cell.style.fontname = fontName
+                  }
+                }
+              }
+            }
+            else if (el.type === 'chart') {
+              el.themeColor = [themeColor]
+              el.gridColor = fontColor
+            }
+            else if (el.type === 'latex') el.color = fontColor
+            else if (el.type === 'audio') el.color = themeColor
+          }
+    
+     
+        }
+      }
+    }
+    slidesStore.setSlides(newSlides)
+    addHistorySnapshot()
+  }
 
   return {
     getSlidesThemeStyles,
     applyPresetThemeToSingleSlide,
     applyPresetThemeToAllSlides,
     applyThemeToAllSlides,
+    applyDataToAllSlides,
   }
 }

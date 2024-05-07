@@ -28,6 +28,9 @@ export default () => {
   const slidesStore = useSlidesStore()
   const { theme } = storeToRefs(useSlidesStore())
 
+  const {
+    applyDataToAllSlides,
+  } = useSlideTheme()
 
   const { addSlidesFromData, isEmptySlide } = useAddSlidesOrElements()
 
@@ -454,6 +457,7 @@ export default () => {
         // transform parsed if you like...
         const slides = writer.render(parsed) // result is a String
         slidesStore.setSlides(slides)
+        applyDataToAllSlides()
       }
       catch (e) {
         console.log(e)

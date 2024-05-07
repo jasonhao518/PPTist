@@ -2,7 +2,7 @@
 import type { Slide, SlideTheme } from '@/types/slides'
 import type { Node, NodeWalker, NodeWalkingStep } from 'commonmark'
 import { HtmlRenderer } from 'commonmark'
-import { v4 as uuidv4 } from 'uuid'
+import { nanoid } from 'nanoid'
 
 interface JsonNode {
   type: string;
@@ -76,9 +76,9 @@ export class SlideRenderer {
             
             // Start a new slide
             currentSlide = {
-              id: uuidv4(),
+              id: nanoid(),
               data: {
-                type: 'level1',
+                type: 'cover',
                 index: level1Index,
                 title,
                 level,
@@ -103,9 +103,9 @@ export class SlideRenderer {
               slideLevel1 = currentSlide
             }
             const slide = {
-              id: uuidv4(),
+              id: nanoid(),
               data: {
-                type: 'level2',
+                type: 'level1',
                 index: level2Index,
                 title,
                 level,
@@ -132,9 +132,9 @@ export class SlideRenderer {
               slideLevel2 = currentSlide
             }
             const slide = {
-              id: uuidv4(),
+              id: nanoid(),
               data: {
-                type: 'level3',
+                type: 'level2',
                 index: level3Index,
                 title,
                 level,
@@ -158,33 +158,9 @@ export class SlideRenderer {
         }
       }
     }
-    slides.unshift({
-      id: uuidv4(),
-      data: {
-        type: 'toc',
-        content: [],
-        children: [],
-        toc: slides.filter(slide => slide.data.level === 1).map(slide => { 
-          return {level: slide.data.level, index: slide.data.index, title: slide.data.title }
-        }),
-      },
-      elements: []
-    })
-    slides.unshift({
-      id: uuidv4(),
-      data: {
-        type: 'cover',
-        data: {
-          'title': 'title here',
-          'subTitle': 'subtitle here',
-          'author': 'Your name'
-        },
-        content: [],
-      },
-      elements: []
-    })
+
     slides.push({
-      id: uuidv4(),
+      id: nanoid(),
       data: {
         type: 'ending',
         content: [],

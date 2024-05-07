@@ -81,6 +81,7 @@ export const layouts: Slide[] = [
   },
   {
     id: 'template',
+    type: 'level1',
     elements: [
       {
         type: 'text',
