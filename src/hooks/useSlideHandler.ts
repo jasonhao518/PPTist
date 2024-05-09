@@ -11,6 +11,7 @@ import message from '@/utils/message'
 import usePasteTextClipboardData from '@/hooks/usePasteTextClipboardData'
 import useHistorySnapshot from '@/hooks/useHistorySnapshot'
 import useAddSlidesOrElements from '@/hooks/useAddSlidesOrElements'
+import useSlideTheme from './useSlideTheme'
 
 export default () => {
   const mainStore = useMainStore()
@@ -25,6 +26,11 @@ export default () => {
   const { pasteTextClipboardData } = usePasteTextClipboardData()
   const { addSlidesFromData } = useAddSlidesOrElements()
   const { addHistorySnapshot } = useHistorySnapshot()
+
+  const {
+    applyDataToSlide,
+  } = useSlideTheme()
+
 
   // 重置幻灯片
   const resetSlides = () => {
@@ -109,8 +115,9 @@ export default () => {
       element.id = elIdMap[element.id]
       if (element.groupId) element.groupId = groupIdMap[element.groupId]
     }
-
-    slidesStore.updateSlide({ elements: slide.elements })
+    // apply data
+    applyDataToSlide(currentSlide.value, slide)
+    // slidesStore.updateSlide({ elements: slide.elements })
     addHistorySnapshot()
   }
 

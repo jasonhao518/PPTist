@@ -82,7 +82,7 @@ usePasteEvent()
   }
 }
 .layout-content-right {
-  width: 260px;
+  width: 40%;
   height: 100%;
 }
 </style>

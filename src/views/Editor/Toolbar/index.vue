@@ -22,6 +22,8 @@ import ElementStylePanel from './ElementStylePanel/index.vue'
 import ElementPositionPanel from './ElementPositionPanel.vue'
 import ElementAnimationPanel from './ElementAnimationPanel.vue'
 import SlideDesignPanel from './SlideDesignPanel.vue'
+import SlideLayoutPanel from './SlideLayoutPanel.vue'
+
 import SlideAnimationPanel from './SlideAnimationPanel.vue'
 import MultiPositionPanel from './MultiPositionPanel.vue'
 import SymbolPanel from './SymbolPanel.vue'
@@ -51,7 +53,9 @@ const elementTabs = computed<ElementTabs[]>(() => {
   ]
 })
 const slideTabs = [
+  { label: 'AI', key: ToolbarStates.AI },
   { label: '设计', key: ToolbarStates.SLIDE_DESIGN },
+  { label: '布局', key: ToolbarStates.SLIDE_LAYOUT },
   { label: '切换', key: ToolbarStates.SLIDE_ANIMATION },
   { label: '动画', key: ToolbarStates.EL_ANIMATION },
 ]
@@ -83,6 +87,7 @@ const currentPanelComponent = computed(() => {
     [ToolbarStates.EL_POSITION]: ElementPositionPanel,
     [ToolbarStates.EL_ANIMATION]: ElementAnimationPanel,
     [ToolbarStates.SLIDE_DESIGN]: SlideDesignPanel,
+    [ToolbarStates.SLIDE_LAYOUT]: SlideLayoutPanel,
     [ToolbarStates.SLIDE_ANIMATION]: SlideAnimationPanel,
     [ToolbarStates.MULTI_POSITION]: MultiPositionPanel,
     [ToolbarStates.SYMBOL]: SymbolPanel,

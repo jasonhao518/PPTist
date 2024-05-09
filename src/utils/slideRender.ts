@@ -52,7 +52,7 @@ export class SlideRenderer {
     const walker = doc.walker()
     let event
     const slides: Slide[] = []
-    let currentSlide
+    let currentSlide: Slide | undefined
     let slideLevel1: any
     let level1Index = 0
     let level2Index = 0
@@ -77,6 +77,7 @@ export class SlideRenderer {
             // Start a new slide
             currentSlide = {
               id: nanoid(),
+              type: 'cover',
               data: {
                 type: 'cover',
                 index: level1Index,
@@ -84,7 +85,7 @@ export class SlideRenderer {
                 level,
                 parent: null,
                 content: [] as any,
-                children: [] as any
+                // children: [] as any
               },
               elements: []
             }
@@ -102,21 +103,22 @@ export class SlideRenderer {
             if (!slideLevel1) {
               slideLevel1 = currentSlide
             }
-            const slide = {
+            const slide: Slide = {
               id: nanoid(),
+              type: 'level2',
               data: {
-                type: 'level1',
+                type: 'level2',
                 index: level2Index,
                 title,
                 level,
                 level1Title: slideLevel1.title,
                 content: [],
-                children: [] as any
+                // children: [] as any
               },
               elements: []
             }
 
-            slideLevel1.data.children.push(slide)
+            // slideLevel1.data.children.push(slide)
             currentSlide = slide
             slideLevel2 = slide
             slides.push(currentSlide)
@@ -131,28 +133,47 @@ export class SlideRenderer {
             if (!slideLevel2) {
               slideLevel2 = currentSlide
             }
-            const slide = {
+            const slide: Slide = {
               id: nanoid(),
+              type: 'level3',
               data: {
-                type: 'level2',
+                type: 'level3',
                 index: level3Index,
                 title,
                 level,
                 level1Title: slideLevel1.title,
                 level2Title: slideLevel2.title,
                 content: [],
-                children: [],
+                // children: [],
               },
               elements: []
             }
-            slideLevel2.data.children.push(slide)
+            // slideLevel2.data.children.push(slide)
             currentSlide = slide
             slides.push(currentSlide)
           }
+          
         }
 
         if (currentSlide) {
-          if (node.parent?.type === 'document' && node.type !== 'heading') {
+          if (node.type === 'thematic_break') {
+            // create new slide
+            currentSlide = {
+              id: nanoid(),
+              type: 'content',
+              data: {
+                type: 'content',
+                index: level2Index,
+                title: currentSlide.data.title,
+                level: currentSlide.data.level,
+                content: [],
+                // children: [] as any
+              },
+              elements: []
+            }
+            slides.push(currentSlide)
+          }
+          else if (node.parent?.type === 'document' && node.type !== 'heading') {
             currentSlide.data.content.push(nodesToJson(node))
           }
         }
@@ -161,13 +182,14 @@ export class SlideRenderer {
 
     slides.push({
       id: nanoid(),
+      type: 'ending',
       data: {
         type: 'ending',
         content: [],
       },
       elements: []
     })
-    return slides
+    return slides.filter(slide => slide.type !== 'content' || slide.data.content.length > 0)
   
   }
 

@@ -166,6 +166,7 @@ export interface PPTPlaceHolder extends PPTBaseElement {
   used?: boolean
   accept: string[]
   content?: string
+  template?: string,
   defaultFontName: string
   defaultColor: string
   outline?: PPTElementOutline
@@ -710,7 +711,7 @@ export interface Note {
  */
 export interface Slide {
   id: string
-  type?: 'cover' | 'toc' | 'ending' | 'level1' | 'level2' | 'level3'
+  type?: 'cover' | 'toc' | 'ending' | 'level1' | 'level2' | 'level3' | 'content'
   data?: any
   elements: PPTElement[]
   notes?: Note[]

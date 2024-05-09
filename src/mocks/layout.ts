@@ -36,7 +36,8 @@ export const layouts: Slide[] = [
         rotate: 0
       },
       {
-        type: 'text',
+        type: 'placeholder',
+        accept: ['Heading'],
         id: 'AkIh3E',
         left: 355,
         top: 95.11111111111111,
@@ -44,6 +45,7 @@ export const layouts: Slide[] = [
         height: 116,
         lineHeight: 1.2,
         content: '<p style=\'\'><strong><span style=\'font-size: 80px\'>输入标题</span></strong></p>',
+        template: '<p style=\'\'><strong><span style=\'font-size: 80px\'>{{title}}</span></strong></p>',
         rotate: 0,
         defaultFontName: '{{fontName}}',
         defaultColor: '{{fontColor}}',
@@ -81,10 +83,11 @@ export const layouts: Slide[] = [
   },
   {
     id: 'template',
-    type: 'level1',
+    type: 'level2',
     elements: [
       {
-        type: 'text',
+        type: 'placeholder',
+        accept: ['Heading'],
         id: 'ptNnUJ',
         left: 145,
         top: 148,
@@ -92,6 +95,7 @@ export const layouts: Slide[] = [
         height: 77,
         lineHeight: 1.2,
         content: '<p style=\'text-align: center;\'><strong><span style=\'font-size: 48px\'>在此处添加标题</span></strong></p>',
+        template: '<p style=\'text-align: center;\'><strong><span style=\'font-size: 48px\'>{{title}}</span></strong></p>',
         rotate: 0,
         defaultFontName: '{{fontName}}',
         defaultColor: '{{fontColor}}',
@@ -276,6 +280,7 @@ export const layouts: Slide[] = [
   },
   {
     id: 'template',
+    type: 'level3',
     elements: [
       {
         type: 'shape',
@@ -460,6 +465,7 @@ export const layouts: Slide[] = [
   },
   {
     id: 'template',
+    type: 'content',
     elements: [
       {
         type: 'shape',
@@ -576,6 +582,7 @@ export const layouts: Slide[] = [
   },
   {
     id: 'template',
+    type: 'level2',
     elements: [
       {
         type: 'text',
@@ -693,9 +700,11 @@ export const layouts: Slide[] = [
   },
   {
     id: 'template',
+    type: 'level2',
     elements: [
       {
-        type: 'text',
+        type: 'placeholder',
+        accept: ['Heading'],
         id: 'GdEGxg',
         left: 134.53703703703704,
         top: 127.25,
@@ -703,6 +712,7 @@ export const layouts: Slide[] = [
         height: 308,
         lineHeight: 1.8,
         content: '<p style=\'text-align: center;\'><strong><span style=\'color: #ffffff;\'><span style=\'font-size: 40px\'>请在此处输入标题</span></span></strong></p>',
+        template: '<p style=\'text-align: center;\'><strong><span style=\'color: #ffffff;\'><span style=\'font-size: 40px\'>{{title}}</span></span></strong></p>',
         rotate: 0,
         defaultFontName: '{{fontName}}',
         defaultColor: '{{fontColor}}',
