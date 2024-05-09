@@ -57,8 +57,6 @@ const slideTabs = [
   { label: 'AI', key: ToolbarStates.AI },
   { label: '设计', key: ToolbarStates.SLIDE_DESIGN },
   { label: '布局', key: ToolbarStates.SLIDE_LAYOUT },
-  { label: '切换', key: ToolbarStates.SLIDE_ANIMATION },
-  { label: '动画', key: ToolbarStates.EL_ANIMATION },
 ]
 const multiSelectTabs = [
   { label: '样式', key: ToolbarStates.EL_STYLE },
