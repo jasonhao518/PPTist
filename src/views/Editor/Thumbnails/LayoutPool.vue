@@ -11,8 +11,6 @@
 
         <div class="btns">
           <Button class="btn" type="primary" size="small" @click="insertTemplate(slide)">插入模板</Button>
-          <Button v-if="slide.type === slideType" class="btn" type="primary" size="small" @click="applyTemplate(slide)">应用模板</Button>
-          
         </div>
       </div>
     </div>
@@ -29,18 +27,13 @@ import Button from '@/components/Button.vue'
 
 const emit = defineEmits<{
   (event: 'select', payload: Slide): void
-  (event: 'apply', payload: Slide): void
 }>()
 
-
 const slidesStore = useSlidesStore()
-const { layouts, slideType} = storeToRefs(slidesStore)
+const { layouts } = storeToRefs(slidesStore)
 
 const insertTemplate = (slide: Slide) => {
   emit('select', slide)
-}
-const applyTemplate = (slide: Slide) => {
-  emit('apply', slide)
 }
 </script>
 
