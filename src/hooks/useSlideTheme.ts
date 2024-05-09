@@ -371,7 +371,7 @@ export default () => {
   const applyDataToSlide = (slide: Slide, layout: Slide) => {
     slide.elements = []
     slide.background = layout.background
-    const contents = slide.data.content
+    const contents = slide.data ? slide.data.content : []
     layout.elements.forEach(async element => {
       const copiedObject = JSON.parse(JSON.stringify(element))
       // apply changes
