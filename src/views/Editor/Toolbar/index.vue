@@ -23,6 +23,7 @@ import ElementPositionPanel from './ElementPositionPanel.vue'
 import ElementAnimationPanel from './ElementAnimationPanel.vue'
 import SlideDesignPanel from './SlideDesignPanel.vue'
 import SlideLayoutPanel from './SlideLayoutPanel.vue'
+import SlideAIPanel from './SlideAIPanel.vue'
 
 import SlideAnimationPanel from './SlideAnimationPanel.vue'
 import MultiPositionPanel from './MultiPositionPanel.vue'
@@ -88,6 +89,7 @@ const currentPanelComponent = computed(() => {
     [ToolbarStates.EL_ANIMATION]: ElementAnimationPanel,
     [ToolbarStates.SLIDE_DESIGN]: SlideDesignPanel,
     [ToolbarStates.SLIDE_LAYOUT]: SlideLayoutPanel,
+    [ToolbarStates.AI]: SlideAIPanel,
     [ToolbarStates.SLIDE_ANIMATION]: SlideAnimationPanel,
     [ToolbarStates.MULTI_POSITION]: MultiPositionPanel,
     [ToolbarStates.SYMBOL]: SymbolPanel,
