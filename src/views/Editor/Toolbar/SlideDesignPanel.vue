@@ -274,7 +274,10 @@
         v-for="(item, index) in PRESET_THEMES" 
         :key="index"
         :style="{
-          backgroundColor: '#ffffff',
+          backgroundColor: item.background.default.color,
+          backgroundImage: 'url(' +item.background.default.image + ')',
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'cover',
           fontFamily: item.fontname,
         }"
       >
