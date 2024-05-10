@@ -593,6 +593,9 @@ export const layouts: Slide[] = [
   {
     id: 'template',
     type: 'level2',
+    blocks: 1,
+    list: true,
+    image: false,
     elements: [
       {
         type: 'text',
@@ -711,6 +714,9 @@ export const layouts: Slide[] = [
   {
     id: 'template',
     type: 'level2',
+    blocks: 1,
+    list: true,
+    image: false,
     elements: [
       {
         type: 'placeholder',
@@ -789,6 +795,10 @@ export const layouts: Slide[] = [
   },
   {
     id: 'template',
+    type: 'cover',
+    blocks: 0,
+    list: false,
+    image: false,
     elements: [
       {
         type: 'shape',
