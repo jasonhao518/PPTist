@@ -376,16 +376,13 @@ export default () => {
       const copiedObject = JSON.parse(JSON.stringify(element))
       // apply changes
       if ((!copiedObject.groupId || copiedObject.main ) && copiedObject.type === 'placeholder' ) {
-        if (copiedObject.accept.includes('Heading')) {
+        if (copiedObject.accept.includes('heading')) {
           copiedObject.type = 'text'
           copiedObject.content = Mustache.render(copiedObject.template, slide.data)
           slide.elements.push(copiedObject)
         }
-        else if (copiedObject.accept.includes('TableOfContent')) {
-          copiedObject.type = 'text'
-          copiedObject.content = Mustache.render(copiedObject.content, slide.data)
-          slide.elements.push(copiedObject)
-        }
+
+        // this part need to be modified
         for (let i = 0; i < contents.length; i++) {
           if (copiedObject.accept.includes(contents[i].type)) {
             if (copiedObject.groupId) {
@@ -454,16 +451,28 @@ export default () => {
       
     })
   }
+  const findBestLayout = (slide: Slide, layouts: Slide[]) => {
+    for (const layout of layouts) {
+      if (slide.type === layout.type) {
+        console.log('slide', slide)
+        console.log('layout', layout)
+        if ( slide.data.blocks === layout.blocks && slide.data.list === layout.list && slide.data.image === layout.image) {
+          return layout
+        }
+      }
+    }
+    return null// layouts.filter(f => f.type === slide.type)
+  }
   const applyDataToAllSlides = () => {
     const newSlides: Slide[] = JSON.parse(JSON.stringify(slides.value))
     const {themeColor, backgroundColor, fontColor, fontName, outline, shadow } = theme.value
     for (const slide of newSlides) {
       if (slide.data) {
         // console.log(tempSlide)
-        const layout = layouts.filter(f => f.type === slide.type)
+        const layout = findBestLayout(slide, layouts)
         // split to multiple slides according content
-        if (layout && layout.length > 0) {
-          applyDataToSlide(slide, layout[0])
+        if (layout) {
+          applyDataToSlide(slide, layout)
           if (!slide.background || slide.background.type !== 'image') {
             slide.background = {
               type: 'solid',

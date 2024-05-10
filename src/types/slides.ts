@@ -712,6 +712,9 @@ export interface Note {
 export interface Slide {
   id: string
   type?: 'cover' | 'toc' | 'ending' | 'level1' | 'level2' | 'level3' | 'content'
+  blocks?: number
+  image?: boolean
+  list?: boolean
   data?: any
   elements: PPTElement[]
   notes?: Note[]

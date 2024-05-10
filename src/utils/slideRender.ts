@@ -6,6 +6,7 @@ import { nanoid } from 'nanoid'
 
 interface JsonNode {
   type: string;
+  image: boolean;
   literal?: string | null;
   destination?: string | null;
   title?: string | null;
@@ -16,6 +17,7 @@ function nodesToJson(node: Node ): JsonNode {
 
   const result: JsonNode = {
     type: node.type,
+    image: node.type === 'image',
     literal: node.literal || null,
     destination: node.destination || null,
     title: node.title || null,
@@ -24,9 +26,12 @@ function nodesToJson(node: Node ): JsonNode {
 
   let child = node.firstChild
   while (child) {
-    const childJson: JsonNode | null = nodesToJson(child);
+    const childJson: JsonNode | null = nodesToJson(child)
     if (childJson) {
       result.children?.push(childJson)
+      if (childJson.image) {
+        result.image = true
+      }
     }
     child = child.next
   }
@@ -39,6 +44,24 @@ function nodesToJson(node: Node ): JsonNode {
   return result
 }
 
+function handleMeta(slide:Slide) {
+  if (slide.data.content) {
+    slide.data.list = slide.data.content.length === 1 && slide.data.content[0].type === 'list'
+    slide.data.blocks = slide.data.content.length
+    slide.data.image = false
+    slide.data.content.forEach((item: { image: boolean; }) => {
+      if (item.image) {
+        slide.data.image = true
+      }
+    })
+  }
+  else {
+    slide.data.list = false
+    slide.data.blocks = 0
+    slide.data.image = false
+  }
+  return slide
+}
  
 /**
  * 将普通文本转为带段落信息的HTML字符串
@@ -189,7 +212,7 @@ export class SlideRenderer {
       },
       elements: []
     })
-    return slides.filter(slide => slide.type !== 'content' || slide.data.content.length > 0)
+    return slides.filter(slide => slide.type !== 'content' || slide.data.content.length > 0).map(item => handleMeta(item))
   
   }
 

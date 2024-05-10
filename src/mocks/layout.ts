@@ -6,6 +6,9 @@ export const layouts: Slide[] = [
   {
     id: 'template',
     type: 'cover',
+    blocks: 0,
+    list: false,
+    image: false,
     elements: [
       {
         type: 'shape',
@@ -37,7 +40,7 @@ export const layouts: Slide[] = [
       },
       {
         type: 'placeholder',
-        accept: ['Heading'],
+        accept: ['heading'],
         id: 'AkIh3E',
         left: 355,
         top: 95.11111111111111,
@@ -83,11 +86,14 @@ export const layouts: Slide[] = [
   },
   {
     id: 'template',
+    blocks: 1,
+    list: true,
+    image: false,
     type: 'level2',
     elements: [
       {
         type: 'placeholder',
-        accept: ['Heading'],
+        accept: ['heading'],
         id: 'ptNnUJ',
         left: 145,
         top: 148,
@@ -101,7 +107,8 @@ export const layouts: Slide[] = [
         defaultColor: '{{fontColor}}',
       }, 
       {
-        type: 'text',
+        type: 'placeholder',
+        accept: ['paragraph'],
         id: 'mRHvQN',
         left: 207.50000000000003,
         top: 249.84259259259264,
@@ -146,6 +153,9 @@ export const layouts: Slide[] = [
   {
     id: 'template',
     type: 'ending',
+    blocks: 0,
+    list: false,
+    image: false,
     elements: [
       {
         type: 'shape',
@@ -704,7 +714,7 @@ export const layouts: Slide[] = [
     elements: [
       {
         type: 'placeholder',
-        accept: ['Heading'],
+        accept: ['heading'],
         id: 'GdEGxg',
         left: 134.53703703703704,
         top: 127.25,

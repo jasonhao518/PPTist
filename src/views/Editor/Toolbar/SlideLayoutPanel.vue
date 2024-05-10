@@ -1,12 +1,11 @@
 <template>
   <div class="layout-pool">
-    <div class="header">页面模板</div>
     <div class="list">
       <div 
         v-for="slide in layouts" 
         :key="slide.id"
       >
-        <div v-if="slide.type === slideType" class="layout-item">
+        <div v-if="slide.type === slideType && currentSlide.data.blocks === slide.blocks && currentSlide.data.list === slide.list" class="layout-item">
           <ThumbnailSlide class="thumbnail" :slide="slide" :size="180" />
 
           <div class="btns">
@@ -31,7 +30,7 @@ const {
 } = useSlideHandler()
 
 const slidesStore = useSlidesStore()
-const { layouts, slideType} = storeToRefs(slidesStore)
+const { layouts, slideType, currentSlide } = storeToRefs(slidesStore)
 const applyTemplate = (slide: Slide) => {
   applySlideTemplate(slide)
 }
