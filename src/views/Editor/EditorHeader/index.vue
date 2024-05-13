@@ -4,7 +4,6 @@
       <Popover trigger="click" placement="bottom-start" v-model:value="mainMenuVisible">
         <template #content>
           <FileInput accept=".md"  @change="files => {
-            importMarkdownFile(files)
             mainMenuVisible = false
           }">
             <PopoverMenuItem>导入 markdown 文件</PopoverMenuItem>
