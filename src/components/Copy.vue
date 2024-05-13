@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import { Copy, Loading, CheckOne } from "@icon-park/vue-next";
-import type { Theme } from "@icon-park/vue-next/lib/runtime";
-import { ref } from "vue";
+import { Copy, Loading, CheckOne } from '@icon-park/vue-next'
+import type { Theme } from '@icon-park/vue-next/lib/runtime'
+import { ref } from 'vue'
+import useImport from '@/hooks/useImport'
+const { importMarkdownFile } = useImport()
 
 const porps = defineProps<{ content: string }>();
 const btnConfig: {
@@ -23,11 +25,9 @@ const btnStatus = ref<"copy" | "loading" | "success" | "error">("copy");
 
 const copyToClipboard = (content: string = porps.content) => {
   btnStatus.value = "loading";
-  navigator.clipboard
-    .writeText(content)
-    .then(() => setTimeout(() => (btnStatus.value = "success"), 150))
-    .catch(() => (btnStatus.value = "error"))
-    .finally(() => setTimeout(() => (btnStatus.value = "copy"), 1500));
+  importMarkdownFile(content)
+
+  setTimeout(() => (btnStatus.value = "copy"), 1500);
 };
 </script>
 

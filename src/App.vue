@@ -1,12 +1,12 @@
 <template>
-  <Suspense>
-    <RouterView />
-  </Suspense>
+  <Screen v-if="screening" />
+  <Editor v-else-if="_isPC" />
+  <Mobile v-else />
 </template>
 
 
 
-<script lang='ts' setup>
+<script lang="ts" setup>
 import { onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useScreenStore, useMainStore, useSnapshotStore } from '@/store'
@@ -47,7 +47,7 @@ window.addEventListener('unload', () => {
 })
 </script>
 
-<style lang='scss'>
+<style lang="scss">
 #app {
   height: 100%;
 }

@@ -444,27 +444,23 @@ export default () => {
 
 
   // 导入pptist文件
-  const importMarkdownFile = (files: FileList) => {
-    const file = files[0]
+  const importMarkdownFile = (content: string) => {
 
-    const reader = new FileReader()
-    reader.addEventListener('load', () => {
-      try {
+    try {
 
-        const parser = new Parser()
-        const writer = new SlideRenderer()
-        const parsed = parser.parse((reader.result as string)) // parsed is a 'Node' tree
-        // transform parsed if you like...
-        const slides = writer.render(parsed) // result is a String
-        slidesStore.setSlides(slides)
-        applyDataToAllSlides()
-      }
-      catch (e) {
-        console.log(e)
-        message.error('无法正确读取 / 解析该文件')
-      }
-    })
-    reader.readAsText(file)
+      const parser = new Parser()
+      const writer = new SlideRenderer()
+      const parsed = parser.parse(content) // parsed is a 'Node' tree
+      // transform parsed if you like...
+      const slides = writer.render(parsed) // result is a String
+      slidesStore.setSlides(slides)
+      applyDataToAllSlides()
+    }
+    catch (e) {
+      console.log(e)
+      message.error('无法正确读取 / 解析该文件')
+    }
+
   }
 
   return {
