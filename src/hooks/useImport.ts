@@ -466,31 +466,6 @@ export default () => {
     })
     reader.readAsText(file)
   }
-  
-
-    // 导入pptist文件
-  const importMarkdownFile = (files: FileList) => {
-    const file = files[0]
-
-    const reader = new FileReader()
-    reader.addEventListener('load', () => {
-      try {
-
-        const parser = new Parser()
-        const writer = new SlideRenderer()
-        const parsed = parser.parse((reader.result as string)) // parsed is a 'Node' tree
-        // transform parsed if you like...
-        const slides = writer.render(parsed) // result is a String
-        slidesStore.setSlides(slides)
-        applyDataToAllSlides()
-      }
-      catch (e) {
-        console.log(e)
-        message.error('无法正确读取 / 解析该文件')
-      }
-    })
-    reader.readAsText(file)
-  }
 
   // 导入pptist文件
   const importMarkdown = (content: string) => {
