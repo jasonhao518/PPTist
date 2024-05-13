@@ -1,3 +1,9 @@
 <template>
-  AI chat here
+  <AiChat />
 </template>
+
+
+<script lang="ts" setup>
+import AiChat from '@/views/home.vue'
+
+</script>
