@@ -16,7 +16,7 @@ const btnConfig: {
   theme: "outline",
 };
 const btnTips = {
-  copy: "复制全文",
+  copy: "创建PPT",
   loading: "",
   success: "已复制到剪贴板！",
   error: "复制失败！",
@@ -24,11 +24,12 @@ const btnTips = {
 const btnStatus = ref<"copy" | "loading" | "success" | "error">("copy");
 
 const copyToClipboard = (content: string = porps.content) => {
-  btnStatus.value = "loading";
+  btnStatus.value = 'loading'
+  console.log(content)
   importMarkdown(content)
 
-  setTimeout(() => (btnStatus.value = "copy"), 1500);
-};
+  setTimeout(() => (btnStatus.value = 'copy'), 1500)
+}
 </script>
 
 <template>

@@ -2,7 +2,7 @@
 import tinycolor from 'tinycolor2'
 import { storeToRefs } from 'pinia'
 import { useSlidesStore } from '@/store'
-import type { Slide } from '@/types/slides'
+import type { Slide, SlideBackground } from '@/types/slides'
 import type { PresetTheme } from '@/configs/theme'
 import useHistorySnapshot from '@/hooks/useHistorySnapshot'
 import Mustache from 'mustache'
@@ -519,6 +519,46 @@ export default () => {
     addHistorySnapshot()
   }
 
+  const saveTheme = () => {
+    const { name, themeColor, fontColor, fontName, outline, shadow } = theme.value
+    fetch('http://localhost:8080/themes', {
+      method: 'post',
+      // signal: AbortSignal.timeout(8000),
+      // 开启后到达设定时间会中断流式输出
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name, themeColor, fontColor, fontName, outline, shadow
+      }),
+    }).then(resp => {
+      resp.json().then(theme => {
+        slidesStore.setTheme({
+          themeColor: theme.themeColor,
+          fontColor: theme.fontColor,
+          fontName: theme.fontname,
+        })
+      })
+    })
+
+  }
+
+  const saveBackground = (type: string, background: SlideBackground) => {
+    const { id } = theme.value
+    fetch(`http://localhost:8080/themes/${id}/background`, {
+      method: 'post',
+      // signal: AbortSignal.timeout(8000),
+      // 开启后到达设定时间会中断流式输出
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        ...background, slideType: type
+      }),
+    })
+
+  }
+
   return {
     getSlidesThemeStyles,
     applyPresetThemeToSingleSlide,
@@ -526,5 +566,7 @@ export default () => {
     applyThemeToAllSlides,
     applyDataToSlide,
     applyDataToAllSlides,
+    saveTheme,
+    saveBackground,
   }
 }

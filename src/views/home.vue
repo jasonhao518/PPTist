@@ -75,7 +75,7 @@ const messageList = ref<ChatMessage[]>([
   },
   {
     role: "assistant",
-    content: `你好，我是文案助手`,
+    content: `你好，我是文案助手，我可以根据你给的题目写作PPT`,
   },
 ]);
 

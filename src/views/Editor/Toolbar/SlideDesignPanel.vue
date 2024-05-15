@@ -2,6 +2,23 @@
   <div class="slide-design-panel">
     <div class="title">背景填充</div>
     <div class="row">
+      <div style="width: 40%;">类型：</div>
+      <Select 
+        style="width: 60%;" 
+        :value="slideType" 
+        @update:value="value => updateBackgroundSlideType(value)"
+        :options="[
+          { label: '默认', value: 'common' },
+          { label: '封面', value: 'cover' },
+          { label: '目录', value: 'toc' },
+          { label: '一级标题', value: 'level1' },
+          { label: '二级标题', value: 'level2' },
+          { label: '内容', value: 'content' },
+          { label: '结尾', value: 'ending' },
+        ]"
+      />
+    </div>
+    <div class="row">
       <Select 
         style="flex: 1;" 
         :value="background.type" 
@@ -98,6 +115,7 @@
 
     <div class="row">
       <Button style="flex: 1;" @click="applyBackgroundAllSlide()">应用背景到全部</Button>
+      <Button :disabled="theme.id === null" style="flex: 1;" @click="saveBackground(slideType,currentSlide.background)">保存背景</Button>
     </div>
 
     <Divider />
@@ -178,6 +196,14 @@
     </div>
     
     <template v-if="moreThemeConfigsVisible">
+      <div class="row">
+        <div style="width: 40%;">名称：</div>
+        <Input 
+          style="width: 60%;" 
+          :value="theme.name || ''" 
+          @update:value="value => updateTheme({ name: value })"
+        />
+      </div>
       <div class="row">
         <div style="width: 40%;">边框样式：</div>
         <Select 
@@ -265,6 +291,10 @@
       <Button style="flex: 1;" @click="applyThemeToAllSlides(moreThemeConfigsVisible)">应用主题到全部</Button>
     </div>
 
+    <div class="row">
+      <Button style="flex: 1;" @click="saveTheme(moreThemeConfigsVisible)">保存主题</Button>
+    </div>
+
     <Divider />
 
     <div class="title">预置主题</div>
@@ -324,6 +354,7 @@ import Divider from '@/components/Divider.vue'
 import Slider from '@/components/Slider.vue'
 import Button from '@/components/Button.vue'
 import Select from '@/components/Select.vue'
+import Input from '@/components/Input.vue'
 import Popover from '@/components/Popover.vue'
 import NumberInput from '@/components/NumberInput.vue'
 import Modal from '@/components/Modal.vue'
@@ -331,9 +362,9 @@ import Modal from '@/components/Modal.vue'
 const slidesStore = useSlidesStore()
 const { availableFonts } = storeToRefs(useMainStore())
 const { slides, currentSlide, viewportRatio, theme } = storeToRefs(slidesStore)
-
 const moreThemeConfigsVisible = ref(false)
 const themeStylesExtractVisible = ref(false)
+const slideType = ref('common')
 
 const background = computed(() => {
   if (!currentSlide.value.background) {
@@ -350,6 +381,8 @@ const {
   applyPresetThemeToSingleSlide,
   applyPresetThemeToAllSlides,
   applyThemeToAllSlides,
+  saveTheme,
+  saveBackground,
 } = useSlideTheme()
 
 // 设置背景模式：纯色、图片、渐变色
@@ -382,6 +415,11 @@ const updateBackgroundType = (type: 'solid' | 'image' | 'gradient') => {
     slidesStore.updateSlide({ background: newBackground })
   }
   addHistorySnapshot()
+}
+
+
+const updateBackgroundSlideType = (type: 'cover' | 'toc' | 'ending' | 'level1' | 'level2' | 'level3' | 'content') => {
+  slideType.value = type
 }
 
 // 设置背景图片

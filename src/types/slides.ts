@@ -665,6 +665,7 @@ export interface PPTAnimation {
  */
 export interface SlideBackground {
   type: 'solid' | 'image' | 'gradient'
+  slideType?: 'cover' | 'toc' | 'ending' | 'level1' | 'level2' | 'level3' | 'content'
   color?: string
   image?: string
   imageSize?: 'cover' | 'contain' | 'repeat'
@@ -715,6 +716,8 @@ export interface Slide {
   blocks?: number
   image?: boolean
   list?: boolean
+  numOfItems?: number
+  paragraph?: boolean
   data?: any
   elements: PPTElement[]
   notes?: Note[]
@@ -736,6 +739,8 @@ export interface Slide {
  * fontName: 字体
  */
 export interface SlideTheme {
+  id?: string
+  name?: string
   backgroundColor: string
   themeColor: string
   fontColor: string
