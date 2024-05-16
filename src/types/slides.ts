@@ -104,11 +104,19 @@ export interface PPTElementLink {
  * 
  * name?: 元素名
  */
+interface PPTElementPlaceholder {
+  main?: boolean
+  accept?: string
+  aggregate?: boolean 
+  template: string
+}
+
 interface PPTBaseElement {
   id: string
   left: number
   top: number
   lock?: boolean
+  placeholder?: PPTElementPlaceholder
   groupId?: string
   width: number
   height: number
@@ -714,6 +722,7 @@ export interface Slide {
   id: string
   type?: 'cover' | 'toc' | 'ending' | 'level1' | 'level2' | 'level3' | 'content'
   blocks?: number
+  name?: string
   image?: boolean
   list?: boolean
   numOfItems?: number

@@ -520,7 +520,7 @@ export default () => {
   }
 
   const saveTheme = () => {
-    const { name, themeColor, fontColor, fontName, outline, shadow } = theme.value
+    const { id, name, themeColor, fontColor, fontName, outline, shadow } = theme.value
     fetch('http://localhost:8080/themes', {
       method: 'post',
       // signal: AbortSignal.timeout(8000),
@@ -529,7 +529,7 @@ export default () => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        name, themeColor, fontColor, fontName, outline, shadow
+        id, name, themeColor, fontColor, fontName, outline, shadow
       }),
     }).then(resp => {
       resp.json().then(theme => {
@@ -559,6 +559,19 @@ export default () => {
 
   }
 
+  const saveLayout = (layout: Slide) => {
+    console.log(layout)
+    fetch(`http://localhost:8080/layouts`, {
+      method: 'post',
+      // signal: AbortSignal.timeout(8000),
+      // 开启后到达设定时间会中断流式输出
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(layout),
+    })
+  }
+
   return {
     getSlidesThemeStyles,
     applyPresetThemeToSingleSlide,
@@ -567,6 +580,7 @@ export default () => {
     applyDataToSlide,
     applyDataToAllSlides,
     saveTheme,
+    saveLayout,
     saveBackground,
   }
 }

@@ -68,7 +68,8 @@
         <ColorButton :color="fill" />
       </Popover>
     </div>
-
+    <Divider />
+    <ElementPlaceholder />
     <Divider />
     <ElementOutline />
     <Divider />
@@ -88,6 +89,7 @@ import useHistorySnapshot from '@/hooks/useHistorySnapshot'
 
 import ElementOpacity from '../common/ElementOpacity.vue'
 import ElementOutline from '../common/ElementOutline.vue'
+import ElementPlaceholder from '../common/ElementPlaceholder.vue'
 import ElementShadow from '../common/ElementShadow.vue'
 import ColorButton from '../common/ColorButton.vue'
 import RichTextBase from '../common/RichTextBase.vue'
