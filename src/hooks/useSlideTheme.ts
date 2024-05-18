@@ -2,7 +2,7 @@
 import tinycolor from 'tinycolor2'
 import { storeToRefs } from 'pinia'
 import { useSlidesStore } from '@/store'
-import type { Slide, SlideBackground } from '@/types/slides'
+import type { Slide, SlideBackground, SlideTheme } from '@/types/slides'
 import type { PresetTheme } from '@/configs/theme'
 import useHistorySnapshot from '@/hooks/useHistorySnapshot'
 import Mustache from 'mustache'
@@ -248,11 +248,11 @@ export default () => {
   }
   
   // 设置幻灯片主题
-  const setSlideTheme = (slide: Slide, theme: PresetTheme) => {
+  const setSlideTheme = (slide: Slide, theme: SlideTheme) => {
     const colorMap = createSlideThemeColorMap(slide, theme.colors)
   
     // apply theme background
-    const defaultBackground = theme.background['default']
+    const defaultBackground = theme.background['common']
     const slideBackground = theme.background[slide.type!]
     if (slideBackground) {
       slide.background = slideBackground
@@ -268,7 +268,7 @@ export default () => {
       if (el.type === 'text') {
         if (el.fill) el.fill = colorMap[tinycolor(el.fill).toRgbString()] || el.fill
         el.defaultColor = theme.fontColor
-        el.defaultFontName = theme.fontname
+        el.defaultFontName = theme.fontName
       }
       if (el.type === 'table') {
         if (el.theme) el.theme.color = colorMap[tinycolor(el.theme.color).toRgbString()] || el.theme.color
@@ -276,7 +276,7 @@ export default () => {
           for (const cell of rowCells) {
             if (cell.style) {
               cell.style.color = theme.fontColor
-              cell.style.fontname = theme.fontname
+              cell.style.fontname = theme.fontName
             }
           }
         }
@@ -292,7 +292,7 @@ export default () => {
   }
   
   // 应用预置主题（单页）
-  const applyPresetThemeToSingleSlide = (theme: PresetTheme) => {
+  const applyPresetThemeToSingleSlide = (theme: SlideTheme) => {
     const newSlide: Slide = JSON.parse(JSON.stringify(currentSlide.value))
     setSlideTheme(newSlide, theme)
     slidesStore.updateSlide({
@@ -303,7 +303,7 @@ export default () => {
   }
   
   // 应用预置主题（全部）
-  const applyPresetThemeToAllSlides = (theme: PresetTheme) => {
+  const applyPresetThemeToAllSlides = (theme: SlideTheme) => {
     const newSlides: Slide[] = JSON.parse(JSON.stringify(slides.value))
     for (const slide of newSlides) {
       setSlideTheme(slide, theme)
@@ -311,8 +311,11 @@ export default () => {
     slidesStore.setTheme({
       background: theme.background,
       themeColor: theme.colors[0],
+      id: theme.id,
+      name: theme.name,
+      colors: theme.colors,
       fontColor: theme.fontColor,
-      fontName: theme.fontname,
+      fontName: theme.fontName,
     })
     slidesStore.setSlides(newSlides)
     addHistorySnapshot()
@@ -322,7 +325,7 @@ export default () => {
   const applyThemeToAllSlides = (applyAll = false) => {
     const newSlides: Slide[] = JSON.parse(JSON.stringify(slides.value))
     const { themeColor, background, fontColor, fontName, outline, shadow } = theme.value
-    const defaultBackground = background['default']
+    const defaultBackground = background['common']
     for (const slide of newSlides) {
       const slideBackground = background[slide.type!]
       if (slideBackground) {
@@ -520,7 +523,7 @@ export default () => {
   }
 
   const saveTheme = () => {
-    const { id, name, themeColor, fontColor, fontName, outline, shadow } = theme.value
+    const { id, name, themeColor, fontColor, fontName, outline, shadow, colors } = theme.value
     fetch('http://localhost:8080/themes', {
       method: 'post',
       // signal: AbortSignal.timeout(8000),
@@ -529,7 +532,7 @@ export default () => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        id, name, themeColor, fontColor, fontName, outline, shadow
+        id, name, themeColor, fontColor, fontName, outline, shadow, colors
       }),
     }).then(resp => {
       resp.json().then(theme => {

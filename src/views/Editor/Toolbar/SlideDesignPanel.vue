@@ -197,11 +197,27 @@
     
     <template v-if="moreThemeConfigsVisible">
       <div class="row">
+        <div style="width: 40%;">ID：</div>
+        <Input 
+          style="width: 60%;" 
+          :value="theme.id || ''" 
+          @update:value="value => updateTheme({ id: value })"
+        />
+      </div>
+      <div class="row">
         <div style="width: 40%;">名称：</div>
         <Input 
           style="width: 60%;" 
           :value="theme.name || ''" 
           @update:value="value => updateTheme({ name: value })"
+        />
+      </div>
+      <div class="row">
+        <div style="width: 40%;">颜色：</div>
+        <Input 
+          style="width: 60%;" 
+          :value="theme.colors || ''" 
+          @update:value="value => updateTheme({ colors: value.split(',') })"
         />
       </div>
       <div class="row">
@@ -301,11 +317,11 @@
     <div class="theme-list">
       <div 
         class="theme-item" 
-        v-for="(item, index) in PRESET_THEMES" 
+        v-for="(item, index) in themes" 
         :key="index"
         :style="{
-          backgroundColor: item.background.default.color,
-          backgroundImage: 'url(' +item.background.default.image + ')',
+          backgroundColor: item.background.common.color,
+          backgroundImage: 'url(' +item.background.common.image + ')',
           backgroundRepeat: 'no-repeat',
           backgroundSize: 'cover',
           fontFamily: item.fontname,
@@ -340,7 +356,7 @@ import { computed, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useMainStore, useSlidesStore } from '@/store'
 import type { SlideBackground, SlideTheme } from '@/types/slides'
-import { PRESET_THEMES } from '@/configs/theme'
+// import { PRESET_THEMES } from '@/configs/theme'
 import { WEB_FONTS } from '@/configs/font'
 import useHistorySnapshot from '@/hooks/useHistorySnapshot'
 import useSlideTheme from '@/hooks/useSlideTheme'
@@ -361,7 +377,7 @@ import Modal from '@/components/Modal.vue'
 
 const slidesStore = useSlidesStore()
 const { availableFonts } = storeToRefs(useMainStore())
-const { slides, currentSlide, viewportRatio, theme } = storeToRefs(slidesStore)
+const { slides, currentSlide, viewportRatio, theme, themes } = storeToRefs(slidesStore)
 const moreThemeConfigsVisible = ref(false)
 const themeStylesExtractVisible = ref(false)
 const slideType = ref('common')

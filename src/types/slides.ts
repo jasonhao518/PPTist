@@ -750,6 +750,7 @@ export interface Slide {
 export interface SlideTheme {
   id?: string
   name?: string
+  colors: string[],
   backgroundColor: string
   themeColor: string
   fontColor: string

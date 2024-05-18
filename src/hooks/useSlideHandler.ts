@@ -37,7 +37,7 @@ export default () => {
     const emptySlide: Slide = {
       id: nanoid(10),
       elements: [],
-      background: theme.value.background['default'],
+      background: theme.value.background['common'],
     }
     slidesStore.updateSlideIndex(0)
     mainStore.setActiveElementIdList([])
@@ -83,7 +83,7 @@ export default () => {
     const emptySlide: Slide = {
       id: nanoid(10),
       elements: [],
-      background: theme.value.background['default'],
+      background: theme.value.background['common'],
     }
     mainStore.setActiveElementIdList([])
     slidesStore.addSlide(emptySlide)

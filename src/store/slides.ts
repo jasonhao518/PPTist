@@ -26,6 +26,7 @@ export interface SlidesState {
   title: string
   theme: SlideTheme
   slides: Slide[]
+  themes: SlideTheme[]
   slideIndex: number,
   slideType?: string,
   viewportRatio: number
@@ -35,6 +36,7 @@ export const useSlidesStore = defineStore('slides', {
   state: (): SlidesState => ({
     title: '未命名演示文稿', // 幻灯片标题
     theme: theme, // 主题样式
+    themes: [],
     slides: slides, // 幻灯片页面数据
     slideIndex: 0, // 当前页面索引
     slideType: 'cover',
@@ -45,7 +47,7 @@ export const useSlidesStore = defineStore('slides', {
     currentSlide(state) {
       return state.slides[state.slideIndex]
     },
-  
+
     currentSlideAnimations(state) {
       const currentSlide = state.slides[state.slideIndex]
       if (!currentSlide?.animations) return []
@@ -105,7 +107,7 @@ export const useSlidesStore = defineStore('slides', {
       
       const result = JSON.parse(layoutsString) as Slide[]
       // apply background
-      const defaultBackground = background['default']
+      const defaultBackground = background['common']
       result.forEach(layout => {
         const slideBackground = background[layout.type!]
         if (slideBackground) {
@@ -121,6 +123,26 @@ export const useSlidesStore = defineStore('slides', {
   },
 
   actions: {
+    async load(id: string) {
+      const resp = await fetch('http://localhost:8080/slides/', {
+        method: 'get',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      })
+      const body = await resp.json()
+      this.theme = body.theme
+      this.slides = body.slides
+    },
+    async loadThemes() {
+      const resp = await fetch('http://localhost:8080/themes', {
+        method: 'get',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      })
+      this.themes = await resp.json()
+    },
     setTitle(title: string) {
       if (!title) this.title = '未命名演示文稿'
       else this.title = title
