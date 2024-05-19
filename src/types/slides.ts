@@ -720,6 +720,7 @@ export interface Note {
  */
 export interface Slide {
   id: string
+  presentationId?: string
   type?: 'cover' | 'toc' | 'ending' | 'level1' | 'level2' | 'level3' | 'content'
   blocks?: number
   name?: string

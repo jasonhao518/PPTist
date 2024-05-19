@@ -2,10 +2,15 @@
 import { Copy, Loading, CheckOne } from '@icon-park/vue-next'
 import type { Theme } from '@icon-park/vue-next/lib/runtime'
 import { ref } from 'vue'
-import useImport from '@/hooks/useImport'
-const { importMarkdown } = useImport()
+import { useSlidesStore } from '@/store'
+import { storeToRefs } from 'pinia'
+import { useRouter } from 'vue-router'
+const slidesStore = useSlidesStore()
+const { currentSlide } = storeToRefs(slidesStore)
+const router = useRouter()
 
-const porps = defineProps<{ content: string }>();
+
+const porps = defineProps<{ content: string }>()
 const btnConfig: {
   size: number;
   fill: string;
@@ -23,12 +28,14 @@ const btnTips = {
 };
 const btnStatus = ref<"copy" | "loading" | "success" | "error">("copy");
 
-const copyToClipboard = (content: string = porps.content) => {
+const copyToClipboard = async (content: string = porps.content) => {
   btnStatus.value = 'loading'
   console.log(content)
-  importMarkdown(content)
+  const resp = await slidesStore.load(content)
+  console.log(resp)
+  router.push(`/${resp}`)
 
-  setTimeout(() => (btnStatus.value = 'copy'), 1500)
+  
 }
 </script>
 

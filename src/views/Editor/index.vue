@@ -30,9 +30,10 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, onMounted, onUpdated } from 'vue'
+import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
-import { useMainStore } from '@/store'
+import { useMainStore, useSlidesStore } from '@/store'
 import useGlobalHotkey from '@/hooks/useGlobalHotkey'
 import usePasteEvent from '@/hooks/usePasteEvent'
 
@@ -47,15 +48,31 @@ import SelectPanel from './SelectPanel.vue'
 import SearchPanel from './SearchPanel.vue'
 import NotesPanel from './NotesPanel.vue'
 import Modal from '@/components/Modal.vue'
-
+const slidesStore = useSlidesStore()
+const { currentSlide } = storeToRefs(slidesStore)
 const mainStore = useMainStore()
 const { dialogForExport, showSelectPanel, showSearchPanel, showNotesPanel } = storeToRefs(mainStore)
 const closeExportDialog = () => mainStore.setDialogForExport('')
 
+const router = useRouter()
 const remarkHeight = ref(40)
 
 useGlobalHotkey()
 usePasteEvent()
+
+onMounted(() => {
+  setTimeout(() => {
+    const id = router.currentRoute.value.params.id
+    console.log(id)
+    if (currentSlide.presentationId !== id) {
+      // reload
+      console.log('reload')
+      slidesStore.reload(id)
+    }
+  }, 500)
+  
+})
+
 </script>
 
 <style lang="scss" scoped>

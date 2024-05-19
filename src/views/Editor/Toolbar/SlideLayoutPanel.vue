@@ -43,7 +43,7 @@
         v-for="slide in layouts" 
         :key="slide.id"
       >
-        <div v-if="currentSlide.data && slide.type === slideType && currentSlide.data.blocks === slide.blocks && currentSlide.data.list === slide.list" class="layout-item">
+        <div v-if="slide.type === slideType && currentSlide.blocks === slide.blocks && currentSlide.list === slide.list" class="layout-item">
           <ThumbnailSlide class="thumbnail" :slide="slide" :size="180" />
 
           <div class="btns">

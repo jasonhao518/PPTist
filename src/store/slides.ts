@@ -26,6 +26,7 @@ export interface SlidesState {
   title: string
   theme: SlideTheme
   slides: Slide[]
+  layouts1: Slide[]
   themes: SlideTheme[]
   slideIndex: number,
   slideType?: string,
@@ -37,6 +38,7 @@ export const useSlidesStore = defineStore('slides', {
     title: '未命名演示文稿', // 幻灯片标题
     theme: theme, // 主题样式
     themes: [],
+    layouts1: [],
     slides: slides, // 幻灯片页面数据
     slideIndex: 0, // 当前页面索引
     slideType: 'cover',
@@ -99,7 +101,7 @@ export const useSlidesStore = defineStore('slides', {
   
       const subColor = tinycolor(fontColor).isDark() ? 'rgba(230, 230, 230, 0.5)' : 'rgba(180, 180, 180, 0.5)'
   
-      const layoutsString = JSON.stringify(layouts)
+      const layoutsString = JSON.stringify(this.layouts1)
         .replace(/{{themeColor}}/g, themeColor)
         .replace(/{{fontColor}}/g, fontColor)
         .replace(/{{fontName}}/g, fontName)
@@ -123,16 +125,28 @@ export const useSlidesStore = defineStore('slides', {
   },
 
   actions: {
-    async load(id: string) {
-      const resp = await fetch('http://localhost:8080/slides/', {
+    async load(markdown: string) {
+      const resp = await fetch(`http://localhost:8080/slides?themeId=${this.theme.id}`, {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: markdown
+      })
+      const body = await resp.json()
+      this.slides = body
+      console.log(body[0].presentationId)
+      return body[0].presentationId
+    },
+    async reload(id: string) {
+      const resp = await fetch(`http://localhost:8080/slides/${id}`, {
         method: 'get',
         headers: {
           'Content-Type': 'application/json',
-        }
+        },
       })
       const body = await resp.json()
-      this.theme = body.theme
-      this.slides = body.slides
+      this.slides = body
     },
     async loadThemes() {
       const resp = await fetch('http://localhost:8080/themes', {
@@ -142,6 +156,13 @@ export const useSlidesStore = defineStore('slides', {
         }
       })
       this.themes = await resp.json()
+      const resp1 = await fetch('http://localhost:8080/layouts', {
+        method: 'get',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      })
+      this.layouts1 = await resp1.json()
     },
     setTitle(title: string) {
       if (!title) this.title = '未命名演示文稿'

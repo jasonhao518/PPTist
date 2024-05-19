@@ -3,7 +3,7 @@ import tinycolor from 'tinycolor2'
 import { storeToRefs } from 'pinia'
 import { useSlidesStore } from '@/store'
 import type { Slide, SlideBackground, SlideTheme } from '@/types/slides'
-import type { PresetTheme } from '@/configs/theme'
+
 import useHistorySnapshot from '@/hooks/useHistorySnapshot'
 import Mustache from 'mustache'
 import { url2Base64 } from '@/utils/url2Base64'
