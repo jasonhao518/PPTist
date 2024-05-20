@@ -71,7 +71,7 @@ const roleAlias = { user: "ME", assistant: "ChatGPT", system: "System" };
 const messageList = ref<ChatMessage[]>([
   {
     role: "system",
-    content: "你是一个文案助手，专职用Markdown写作PPT，标题从一级标题开始",
+    content: "你是一个文案助手，专职用Markdown写作PPT，标题从一级标题开始, 页面使用---分割",
   },
   {
     role: "assistant",

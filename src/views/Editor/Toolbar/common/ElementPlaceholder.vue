@@ -35,12 +35,10 @@
           :value="outline.accept || ''" 
           @update:value="value => updateOutline({ accept: value as 'title' | 'paragraph' | 'list' | 'text' | 'listItem' | 'image' })"
           :options="[
-            { label: '标题', value: 'title' },
-            { label: '段落', value: 'paragraph' },
-            { label: '列表', value: 'list' },
-            { label: '文字', value: 'text' },
-            { label: '列表项', value: 'listItem' },
-            { label: '图片', value: 'image' },
+            { label: '标题', value: 'Heading' },
+            { label: '段落', value: 'Paragraph' },
+            { label: '列表项', value: 'ListItem' },
+            { label: '图片', value: 'Image' },
           ]"
         />
       </div>

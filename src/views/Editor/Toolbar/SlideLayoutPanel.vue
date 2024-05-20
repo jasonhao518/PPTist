@@ -5,13 +5,13 @@
       <Select 
         style="width: 60%;" 
         :value="currentSlide.type || ''" 
-         @update:value="value => currentSlide.type = value as 'cover' | 'toc' | 'ending' | 'level1' | 'level2' | 'level3' | 'content' "
+         @update:value="value => currentSlide.type = value as 'cover' | 'toc' | 'ending' | 'section' | 'paragraph' | 'level3' | 'content' "
         :options="[
           { label: '默认', value: 'common' },
           { label: '封面', value: 'cover' },
           { label: '目录', value: 'toc' },
-          { label: '一级标题', value: 'level1' },
-          { label: '二级标题', value: 'level2' },
+          { label: '一级标题', value: 'section' },
+          { label: '二级标题', value: 'paragraph' },
           { label: '内容', value: 'content' },
           { label: '结尾', value: 'ending' },
         ]"

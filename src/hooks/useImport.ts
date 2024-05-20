@@ -450,14 +450,7 @@ export default () => {
     const reader = new FileReader()
     reader.addEventListener('load', () => {
       try {
-
-        const parser = new Parser()
-        const writer = new SlideRenderer()
-        const parsed = parser.parse((reader.result as string)) // parsed is a 'Node' tree
-        // transform parsed if you like...
-        const slides = writer.render(parsed) // result is a String
-        slidesStore.setSlides(slides)
-        applyDataToAllSlides()
+        slidesStore.load((reader.result as string))
       }
       catch (e) {
         console.log(e)
