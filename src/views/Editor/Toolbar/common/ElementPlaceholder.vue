@@ -33,11 +33,11 @@
         <Select 
           style="width: 60%;" 
           :value="outline.accept || ''" 
-          @update:value="value => updateOutline({ accept: value as 'Heading' | 'Paragraph' | 'ListItem' | 'Image' | 'Text' | 'Emphasis' })"
+          @update:value="value => updateOutline({ accept: value as 'Heading' | 'Paragraph' | 'ListItem' | 'Image' | 'Text' | 'StrongEmphasis' })"
           :options="[
             { label: '标题', value: 'Heading' },
             { label: '段落', value: 'Paragraph' },
-            { label: '段落标题', value: 'Emphasis' },
+            { label: '段落标题', value: 'StrongEmphasis' },
             { label: '列表项', value: 'ListItem' },
             { label: '文本', value: 'Text' },
             { label: '图片', value: 'Image' },
