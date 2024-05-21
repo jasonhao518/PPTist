@@ -33,7 +33,7 @@
         <Select 
           style="width: 60%;" 
           :value="outline.accept || ''" 
-          @update:value="value => updateOutline({ accept: value as 'title' | 'paragraph' | 'list' | 'text' | 'listItem' | 'image' })"
+          @update:value="value => updateOutline({ accept: value as 'Heading' | 'Paragraph' | 'ListItem' | 'Image' })"
           :options="[
             { label: '标题', value: 'Heading' },
             { label: '段落', value: 'Paragraph' },
@@ -42,12 +42,18 @@
           ]"
         />
       </div>
-      <div class="row">
-        <div style="width: 40%;">模版：</div>
-        <Input 
+      <div class="row" v-if="handleElement.groupId && outline.main">
+        <div style="width: 40%;">组合数据类型：</div>
+        <Select 
           style="width: 60%;" 
-          :value="outline.template || handleElement.content" 
-          @update:value="value => updateOutline({ template: value })"
+          :value="outline.groupAccept || ''" 
+          @update:value="value => updateOutline({ groupAccept: value as 'Heading' | 'Paragraph' | 'List' | 'Image' })"
+          :options="[
+            { label: '标题', value: 'Heading' },
+            { label: '段落', value: 'Paragraph' },
+            { label: '列表', value: 'List' },
+            { label: '图片', value: 'Image' },
+          ]"
         />
       </div>
     </template>

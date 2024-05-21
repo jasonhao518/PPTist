@@ -93,7 +93,8 @@
     </RadioGroup>
 
     <Divider />
-
+    <ElementPlaceholder />
+    <Divider />
     <ElementOutline :fixed="true" />
 
     <Divider />
@@ -192,7 +193,7 @@ import RadioGroup from '@/components/RadioGroup.vue'
 import Select from '@/components/Select.vue'
 import SelectGroup from '@/components/SelectGroup.vue'
 import Popover from '@/components/Popover.vue'
-
+import ElementPlaceholder from '../common/ElementPlaceholder.vue'
 const slidesStore = useSlidesStore()
 const { handleElement, handleElementId, selectedTableCells: selectedCells, availableFonts } = storeToRefs(useMainStore())
 const themeColor = computed(() => slidesStore.theme.themeColor)

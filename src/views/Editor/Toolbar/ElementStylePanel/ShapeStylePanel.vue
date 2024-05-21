@@ -111,7 +111,8 @@
 
       <Divider />
     </template>
-
+    <ElementPlaceholder />
+    <Divider />
     <ElementOutline />
     <Divider />
     <ElementShadow />
@@ -139,7 +140,7 @@ import type { PPTShapeElement, ShapeGradient, ShapeText } from '@/types/slides'
 import { type ShapePoolItem, SHAPE_LIST, SHAPE_PATH_FORMULAS } from '@/configs/shapes'
 import useHistorySnapshot from '@/hooks/useHistorySnapshot'
 import useShapeFormatPainter from '@/hooks/useShapeFormatPainter'
-
+import ElementPlaceholder from '../common/ElementPlaceholder.vue'
 import ElementOpacity from '../common/ElementOpacity.vue'
 import ElementOutline from '../common/ElementOutline.vue'
 import ElementShadow from '../common/ElementShadow.vue'

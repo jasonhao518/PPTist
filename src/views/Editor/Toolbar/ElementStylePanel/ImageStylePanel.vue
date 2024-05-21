@@ -46,6 +46,8 @@
     <Divider />
     <ElementFilter />
     <Divider />
+    <ElementPlaceholder />
+    <Divider />
     <ElementOutline />
     <Divider />
     <ElementShadow />
@@ -67,7 +69,7 @@ import type { PPTImageElement, SlideBackground } from '@/types/slides'
 import { CLIPPATHS } from '@/configs/imageClip'
 import { getImageDataURL } from '@/utils/image'
 import useHistorySnapshot from '@/hooks/useHistorySnapshot'
-
+import ElementPlaceholder from '../common/ElementPlaceholder.vue'
 import ElementOutline from '../common/ElementOutline.vue'
 import ElementShadow from '../common/ElementShadow.vue'
 import ElementFlip from '../common/ElementFlip.vue'
