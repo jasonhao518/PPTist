@@ -33,9 +33,10 @@
         <Select 
           style="width: 60%;" 
           :value="outline.accept || ''" 
-          @update:value="value => updateOutline({ accept: value as 'Heading' | 'Paragraph' | 'ListItem' | 'Image' | 'Text' | 'StrongEmphasis' })"
+          @update:value="value => updateOutline({ accept: value as 'Heading' | 'HeadingNum' | 'Paragraph' | 'ListItem' | 'Image' | 'Text' | 'StrongEmphasis' })"
           :options="[
             { label: '标题', value: 'Heading' },
+            { label: '标题序号', value: 'HeadingNum' },
             { label: '段落', value: 'Paragraph' },
             { label: '段落标题', value: 'StrongEmphasis' },
             { label: '列表项', value: 'ListItem' },
@@ -56,6 +57,14 @@
             { label: '列表项', value: 'ListItem' },
             { label: '图片', value: 'Image' },
           ]"
+        />
+      </div>
+      <div class="row">
+        <div style="width: 40%;">模版：</div>
+        <Input 
+          style="width: 60%;" 
+          :value="outline.template || handleElement.content" 
+          @update:value="value => updateOutline({ template: value })"
         />
       </div>
     </template>

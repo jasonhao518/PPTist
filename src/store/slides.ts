@@ -135,8 +135,14 @@ export const useSlidesStore = defineStore('slides', {
       })
       const body = await resp.json()
       this.slides = body
-      console.log(body[0].presentationId)
-      return body[0].presentationId
+      if (body.length > 0) {
+        console.log(body[0].presentationId)
+        return body[0].presentationId
+      }
+      
+      return null
+      
+
     },
     async reload(id: string) {
       const resp = await fetch(`http://localhost:8080/slides/${id}`, {

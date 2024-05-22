@@ -9,6 +9,7 @@ import { type ShapePoolItem, SHAPE_LIST, SHAPE_PATH_FORMULAS } from '@/configs/s
 import { VIEWPORT_SIZE } from '@/configs/canvas'
 import useAddSlidesOrElements from '@/hooks/useAddSlidesOrElements'
 import message from '@/utils/message'
+import { useRouter } from 'vue-router'
 import type {
   Slide,
   TableCellStyle,
@@ -27,7 +28,7 @@ import useSlideTheme from './useSlideTheme'
 export default () => {
   const slidesStore = useSlidesStore()
   const { theme } = storeToRefs(useSlidesStore())
-
+  const router = useRouter()
   const {
     applyDataToAllSlides,
   } = useSlideTheme()
@@ -448,9 +449,11 @@ export default () => {
     const file = files[0]
 
     const reader = new FileReader()
-    reader.addEventListener('load', () => {
+    reader.addEventListener('load', async () => {
       try {
-        slidesStore.load((reader.result as string))
+        const resp = await slidesStore.load((reader.result as string))
+        console.log(resp)
+        router.push(`/${resp}`)
       }
       catch (e) {
         console.log(e)
