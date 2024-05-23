@@ -1,49 +1,11 @@
 <template>
-  <div class="element-outline">
-    <div class="row">
-      <div style="width: 40%;">布局类型：</div>
-      <Select 
-        style="width: 60%;" 
-        :value="currentSlide.type || ''" 
-         @update:value="value => currentSlide.type = value as 'cover' | 'toc' | 'ending' | 'section' | 'paragraph' | 'level3' | 'content' "
-        :options="[
-          { label: '默认', value: 'common' },
-          { label: '封面', value: 'cover' },
-          { label: '目录', value: 'toc' },
-          { label: '一级标题', value: 'section' },
-          { label: '二级标题', value: 'paragraph' },
-          { label: '内容', value: 'content' },
-          { label: '结尾', value: 'ending' },
-        ]"
-      />
-    </div>
-    <div class="row">
-      <div style="width: 40%;">布局ID：</div>
-      <Input 
-        style="width: 60%;" 
-        :value="currentSlide.id || ''" 
-         @update:value="value => currentSlide.id = value  "
-      />
-    </div>
-    <div class="row">
-      <div style="width: 40%;">布局名称：</div>
-      <Input 
-        style="width: 60%;" 
-        :value="currentSlide.name || ''" 
-         @update:value="value => currentSlide.name = value  "
-      />
-    </div>
-    <div class="row">
-      <Button style="flex: 1;" @click="saveLayout(currentSlide)">保存布局</Button>
-    </div>
-  </div>
   <div class="layout-pool">
     <div class="list">
       <div 
         v-for="slide in layouts" 
         :key="slide.id"
       >
-        <div class="layout-item">
+        <div class="layout-item" v-if="currentSlide.type === slide.type">
           <ThumbnailSlide class="thumbnail" :slide="slide" :size="180" />
 
           <div class="btns">
@@ -92,7 +54,7 @@ const applyTemplate = (slide: Slide) => {
 }
 .layout-pool {
   width: 382px;
-  height: 500px;
+  height: 800px;
 }
 .header {
   height: 40px;

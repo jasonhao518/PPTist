@@ -109,15 +109,7 @@ export default () => {
 
   // 根据模板创建新页面
   const applySlideTemplate = (slide: Slide) => {
-    const { groupIdMap, elIdMap } = createElementIdMap(slide.elements)
-
-    for (const element of slide.elements) {
-      element.id = elIdMap[element.id]
-      if (element.groupId) element.groupId = groupIdMap[element.groupId]
-    }
-    // apply data
-    applyDataToSlide(currentSlide.value, slide)
-    // slidesStore.updateSlide({ elements: slide.elements })
+    slidesStore.applyTemplate(slide.id)
     addHistorySnapshot()
   }
 

@@ -6,7 +6,7 @@
     v-contextmenu="contextmenusThumbnails"
   >
     <div class="add-slide">
-      <div class="btn" @click="createSlide()"><IconPlus class="icon" />添加幻灯片</div>
+      <div class="add-btn" @click="createSlide()"><IconPlus class="icon" />添加幻灯片</div>
       <Popover trigger="click" placement="bottom-start" v-model:value="presetLayoutPopoverVisible" center>
         <template #content>
           <LayoutPool @select="slide => { createSlideByTemplate(slide); presetLayoutPopoverVisible = false }" />
@@ -271,7 +271,7 @@ const contextmenusThumbnailItem = (): ContextmenuItem[] => {
   border-bottom: 1px solid $borderColor;
   cursor: pointer;
 
-  .btn {
+  .add-btn {
     flex: 1;
     display: flex;
     justify-content: center;

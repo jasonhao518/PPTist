@@ -54,8 +54,7 @@ const elementTabs = computed<ElementTabs[]>(() => {
   ]
 })
 const slideTabs = [
-  { label: 'AI', key: ToolbarStates.AI },
-  { label: '设计', key: ToolbarStates.SLIDE_DESIGN },
+  { label: '主题', key: ToolbarStates.SLIDE_DESIGN },
   { label: '布局', key: ToolbarStates.SLIDE_LAYOUT },
 ]
 const multiSelectTabs = [
@@ -87,7 +86,6 @@ const currentPanelComponent = computed(() => {
     [ToolbarStates.EL_ANIMATION]: ElementAnimationPanel,
     [ToolbarStates.SLIDE_DESIGN]: SlideDesignPanel,
     [ToolbarStates.SLIDE_LAYOUT]: SlideLayoutPanel,
-    [ToolbarStates.AI]: SlideAIPanel,
     [ToolbarStates.SLIDE_ANIMATION]: SlideAnimationPanel,
     [ToolbarStates.MULTI_POSITION]: MultiPositionPanel,
     [ToolbarStates.SYMBOL]: SymbolPanel,

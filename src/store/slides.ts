@@ -144,6 +144,23 @@ export const useSlidesStore = defineStore('slides', {
       
 
     },
+    async generate(messages: any) {
+      const resp = await fetch(`http://localhost:8080/slides`, {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(messages)
+      })
+      const body = await resp.json()
+      this.slides = body
+      if (body.length > 0) {
+        console.log(body[0].presentationId)
+        return body[0].presentationId
+      }
+      
+      return null
+    },    
     async reload(id: string) {
       const resp = await fetch(`http://localhost:8080/slides/${id}`, {
         method: 'get',
@@ -153,6 +170,17 @@ export const useSlidesStore = defineStore('slides', {
       })
       const body = await resp.json()
       this.slides = body
+    },
+    async applyTemplate(id: string) {
+      const resp = await fetch(`http://localhost:8080/slides/page/${this.currentSlide.id}?layoutId=${id}`, {
+        method: 'get',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      const body = await resp.json()
+      console.log(body)
+      this.currentSlide.elements = body.elements
     },
     async loadThemes() {
       const resp = await fetch('http://localhost:8080/themes', {

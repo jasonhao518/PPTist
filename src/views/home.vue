@@ -1,25 +1,28 @@
 <template>
   <div class="flex flex-col h-screen">
-    <div
-      class="flex flex-nowrap w-full items-baseline bg-gray-100"
-    >
 
-      <div
-        class="ml-auto px-3 py-2 text-sm cursor-pointer hover:bg-white rounded-md"
-        @click="clickConfig()"
-      >
-        设置
+    <div class="sticky bottom-0 w-full p-6 pb-8 bg-gray-100">
+
+      <div class="flex">
+        <input
+          class="input"
+          :type="'text'"
+          :placeholder="'请输入标题'"
+          v-model="messageContent"
+        />
+        <button class="btn" :disabled="isTalking" @click="sendChatMessage()">
+          {{ "发送" }}
+        </button>
       </div>
     </div>
 
-    <div class="flex-1 mx-2 mt-20 mb-2" ref="chatListDom">
+    <div class="flex-1 mx-2 mt-20 mb-2 overflow-y-scroll" ref="chatListDom">
       <div
         class="group flex flex-col px-4 py-3 hover:bg-slate-100 rounded-lg"
         v-for="item of messageList.filter((v) => v.role !== 'system')"
       >
         <div class="flex justify-between items-center mb-2">
           <div class="font-bold">{{ roleAlias[item.role] }}：</div>
-          <Copy class="invisible group-hover:visible" :content="item.content" />
         </div>
         <div>
           <div
@@ -33,22 +36,14 @@
     </div>
 
     <div class="sticky bottom-0 w-full p-6 pb-8 bg-gray-100">
-      <div class="-mt-2 mb-2 text-sm text-gray-500" v-if="isConfig">
-        请输入 API Key：
-      </div>
-      <div class="flex">
-        <input
-          class="input"
-          :type="isConfig ? 'password' : 'text'"
-          :placeholder="isConfig ? 'sk-xxxxxxxxxx' : '请输入'"
-          v-model="messageContent"
-          @keydown.enter="isTalking || sendOrSave()"
-        />
-        <button class="btn" :disabled="isTalking" @click="sendOrSave()">
-          {{ isConfig ? "保存" : "发送" }}
+
+
+        <button class="btn" :disabled="isTalking || messageList.length <3" @click="generatePPT()">
+          生成PPT
         </button>
-      </div>
+
     </div>
+
   </div>
 </template>
 
@@ -60,22 +55,32 @@ import cryptoJS from "crypto-js";
 import Loding from "@/components/Loding.vue";
 import Copy from "@/components/Copy.vue";
 import { md } from "@/libs/markdown";
+import { useSlidesStore } from '@/store'
+import { storeToRefs } from 'pinia'
+import { useRouter } from 'vue-router'
+
+import useSlideTheme from '@/hooks/useSlideTheme'
+const slidesStore = useSlidesStore()
+const { slides, currentSlide, viewportRatio, theme, themes } = storeToRefs(slidesStore)
+const router = useRouter()
+
+const {
+  applyPresetThemeToSingleSlide,
+  applyPresetThemeToAllSlides,
+  applyThemeToAllSlides,
+} = useSlideTheme()
 
 let apiKey = "";
-let isConfig = ref(true);
+let isConfig = ref(false);
 let isTalking = ref(false);
 let messageContent = ref("");
 const chatListDom = ref<HTMLDivElement>();
 const decoder = new TextDecoder("utf-8");
-const roleAlias = { user: "ME", assistant: "ChatGPT", system: "System" };
+const roleAlias = { user: "我", assistant: "我的私有知识库智能体", system: "System" };
 const messageList = ref<ChatMessage[]>([
   {
     role: "system",
-    content: "你是一个文案助手，专职用Markdown写作PPT，标题从一级标题开始, 页面使用---分割",
-  },
-  {
-    role: "assistant",
-    content: `你好，我是文案助手，我可以根据你给的题目写作PPT`,
+    content: "你是一个文案助手，根据下面用户输入的标题，使用中文生成PPT的大纲，包含各级标题和要点,每个标题三条要点"
   },
 ]);
 
@@ -88,7 +93,7 @@ onMounted(() => {
 const sendChatMessage = async (content: string = messageContent.value) => {
   try {
     isTalking.value = true;
-    if (messageList.value.length === 2) {
+    while (messageList.value.length > 1) {
       messageList.value.pop();
     }
     messageList.value.push({ role: "user", content });
@@ -150,6 +155,21 @@ const readStream = async (
 const appendLastMessageContent = (content: string) =>
   (messageList.value[messageList.value.length - 1].content += content);
 
+const generatePPT = async () => {
+  try {
+    isTalking.value = true
+    slidesStore.loadThemes()
+    await slidesStore.generate(messageList.value.map( item => {
+      return {...item, name: item.role}
+    })
+    )
+    applyPresetThemeToAllSlides(themes.value[0])
+  }
+  finally {
+    isTalking.value = false
+  }
+  router.push(`/editor`)
+}
 const sendOrSave = () => {
   if (!messageContent.value.length) return;
   if (isConfig.value) {
@@ -196,12 +216,7 @@ const switchConfigStatus = () => (isConfig.value = !isConfig.value);
 
 const clearMessageContent = () => (messageContent.value = "");
 
-const scrollToBottom = () => {
-  if (!chatListDom.value) return;
-  scrollTo(0, chatListDom.value.scrollHeight);
-};
 
-watch(messageList.value, () => nextTick(() => scrollToBottom()));
 </script>
 
 <style scoped>
